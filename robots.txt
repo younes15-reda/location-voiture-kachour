@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+
+Sitemap: https://younes15-reda.github.io/location-voiture-kachour/sitemap.xml

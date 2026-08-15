@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Kachour Oran</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body { background: var(--black); }
+
+    /* ---- Login Screen ---- */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: var(--black-2);
+      border: 1px solid rgba(245,196,0,0.15);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .login-logo {
+      width: 80px; height: 80px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 0 auto 24px;
+    }
+
+    .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ---- Admin Layout ---- */
+    .admin-layout {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .admin-layout.active { display: flex; }
+
+    .admin-sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: var(--black-2);
+      border-right: 1px solid rgba(245,196,0,0.1);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-logo img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+    .sidebar-logo-text { font-family: var(--font-heading); font-weight: 800; font-size: 0.95rem; }
+    .sidebar-logo-badge { font-size: 0.65rem; color: var(--gold); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+
+    .sidebar-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      margin-bottom: 4px;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .sidebar-nav-link:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+    .sidebar-nav-link.active { background: rgba(245,196,0,0.12); color: var(--gold); }
+
+    .sidebar-nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    /* ---- Admin Main ---- */
+    .admin-main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px;
+      min-height: 100vh;
+    }
+
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .admin-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; }
+    .admin-date { font-size: 0.82rem; color: var(--grey-2); }
+
+    /* ---- KPI Cards ---- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background: var(--black-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: var(--transition-fast);
+    }
+
+    .kpi-card:hover { border-color: rgba(245,196,0,0.2); }
+
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .kpi-icon { font-size: 1.5rem; }
+    .kpi-trend { font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 50px; }
+    .kpi-trend.up { background: rgba(72,199,142,0.15); color: #48c78e; }
+    .kpi-trend.down { background: rgba(229,62,62,0.15); color: #e53e3e; }
+    .kpi-value { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; }
+    .kpi-label { font-size: 0.78rem; color: var(--grey-2); font-weight: 500; }
+
+    /* ---- Tables ---- */
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    .admin-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .admin-section-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .table-card {
+      background: var(--black-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      background: var(--black-3);
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey-2);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(245,196,0,0.03); }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .status-confirmed  { background: rgba(72,199,142,0.15); color: #48c78e; }
+    .status-pending    { background: rgba(245,196,0,0.15); color: #f5c400; }
+    .status-cancelled  { background: rgba(229,62,62,0.15); color: #e53e3e; }
+    .status-available  { background: rgba(72,199,142,0.15); color: #48c78e; }
+    .status-rented     { background: rgba(245,196,0,0.15); color: #f5c400; }
+    .status-maintenance{ background: rgba(229,62,62,0.15); color: #e53e3e; }
+
+    /* ---- Action buttons ---- */
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition-fast);
+      font-family: var(--font-body);
+    }
+
+    .action-btn-view  { background: rgba(255,255,255,0.08); color: var(--white); }
+    .action-btn-edit  { background: rgba(245,196,0,0.12); color: var(--gold); }
+    .action-btn-del   { background: rgba(229,62,62,0.12); color: #e53e3e; }
+    .action-btn:hover { opacity: 0.8; transform: translateY(-1px); }
+
+    /* ---- Search / filter bar ---- */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 16px;
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      color: var(--white);
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .search-input:focus { border-color: var(--gold); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-main { margin-left: 0; padding: 16px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-card" id="login-card">
+      <div class="login-logo">
+        <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+      </div>
+      <h1 class="heading-sm" style="margin-bottom:6px;">Espace Admin</h1>
+      <p class="body-sm text-grey" style="margin-bottom:28px;">Kachour Oran — Tableau de bord</p>
+
+      <div class="form-group" style="margin-bottom:16px;text-align:left;">
+        <label class="form-label" for="login-user">Identifiant</label>
+        <input class="form-control" type="text" id="login-user" placeholder="admin" />
+      </div>
+
+      <div class="form-group" style="margin-bottom:24px;text-align:left;">
+        <label class="form-label" for="login-pass">Mot de passe</label>
+        <input class="form-control" type="password" id="login-pass" placeholder="••••••••" />
+      </div>
+
+      <div id="login-err" style="color:#e53e3e;font-size:0.82rem;margin-bottom:12px;display:none;">
+        ❌ Identifiants incorrects
+      </div>
+
+      <button class="btn btn-primary" id="login-btn" onclick="doLogin()" style="width:100%;justify-content:center;">
+        🔐 Connexion
+      </button>
+
+      <p class="body-sm text-grey" style="margin-top:20px;">
+        <a href="index.html" style="color:var(--gold);">← Retour au site</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN LAYOUT ===== -->
+  <div class="admin-layout" id="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar" role="navigation" aria-label="Menu admin">
+      <div class="sidebar-logo">
+        <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+        <div>
+          <div class="sidebar-logo-text">KACHOUR</div>
+          <div class="sidebar-logo-badge">Administration</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-nav-link active" id="nav-dashboard" onclick="showPanel('dashboard')">
+          <span class="sidebar-nav-icon">📊</span> Tableau de bord
+        </button>
+        <button class="sidebar-nav-link" id="nav-reservations" onclick="showPanel('reservations')">
+          <span class="sidebar-nav-icon">📅</span> Réservations
+        </button>
+        <button class="sidebar-nav-link" id="nav-vehicles" onclick="showPanel('vehicles')">
+          <span class="sidebar-nav-icon">🚗</span> Véhicules
+        </button>
+        <button class="sidebar-nav-link" id="nav-clients" onclick="showPanel('clients')">
+          <span class="sidebar-nav-icon">👥</span> Clients
+        </button>
+        <button class="sidebar-nav-link" id="nav-settings" onclick="showPanel('settings')">
+          <span class="sidebar-nav-icon">⚙️</span> Paramètres
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-nav-link" id="logout-btn" onclick="doLogout()" style="color:#e53e3e;">
+          <span class="sidebar-nav-icon">🚪</span> Déconnexion
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="admin-main" id="admin-main">
+
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-title" id="panel-title">Tableau de bord</div>
+          <div class="admin-date" id="current-date"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <a href="index.html" class="btn btn-outline" id="view-site-btn" style="font-size:0.8rem;padding:10px 18px;" target="_blank">🌐 Voir le site</a>
+          <div style="width:38px;height:38px;background:rgba(245,196,0,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">👤</div>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD PANEL ===== -->
+      <div class="admin-panel active" id="panel-dashboard">
+
+        <!-- KPIs -->
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi-card" id="kpi-reservations">
+            <div class="kpi-top">
+              <span class="kpi-icon">📅</span>
+              <span class="kpi-trend up" id="kpi-res-trend">+12%</span>
+            </div>
+            <div class="kpi-value" id="kpi-res-val">24</div>
+            <div class="kpi-label">Réservations ce mois</div>
+          </div>
+          <div class="kpi-card" id="kpi-revenue">
+            <div class="kpi-top">
+              <span class="kpi-icon">💰</span>
+              <span class="kpi-trend up" id="kpi-rev-trend">+8%</span>
+            </div>
+            <div class="kpi-value" id="kpi-rev-val">186 000</div>
+            <div class="kpi-label">Chiffre d'affaires (DZD)</div>
+          </div>
+          <div class="kpi-card" id="kpi-cars">
+            <div class="kpi-top">
+              <span class="kpi-icon">🚗</span>
+              <span class="kpi-trend up" id="kpi-cars-trend">+2</span>
+            </div>
+            <div class="kpi-value" id="kpi-cars-val">6</div>
+            <div class="kpi-label">Véhicules actifs</div>
+          </div>
+          <div class="kpi-card" id="kpi-clients">
+            <div class="kpi-top">
+              <span class="kpi-icon">👥</span>
+              <span class="kpi-trend up" id="kpi-cli-trend">+5</span>
+            </div>
+            <div class="kpi-value" id="kpi-cli-val">89</div>
+            <div class="kpi-label">Clients enregistrés</div>
+          </div>
+        </div>
+
+        <!-- Recent reservations -->
+        <div class="admin-section-header" id="recent-res-header">
+          <div class="admin-section-title">📋 Réservations récentes</div>
+          <button class="btn btn-outline" id="see-all-res-btn" onclick="showPanel('reservations')" style="font-size:0.8rem;padding:8px 16px;">Voir tout →</button>
+        </div>
+
+        <div class="table-card" id="recent-table-card">
+          <table class="data-table" id="recent-table">
+            <thead>
+              <tr>
+                <th>Réf.</th>
+                <th>Client</th>
+                <th>Véhicule</th>
+                <th>Dates</th>
+                <th>Total</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody id="recent-tbody">
+              <tr>
+                <td><strong>KAC-1042</strong></td>
+                <td>Karim Bensalem</td>
+                <td>Renault Clio 5</td>
+                <td>12 – 15 Déc 2024</td>
+                <td style="color:var(--gold);font-weight:700;">9 000 DZD</td>
+                <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
+              </tr>
+              <tr>
+                <td><strong>KAC-1041</strong></td>
+                <td>Samia Lamine</td>
+                <td>Geely GX3 Pro</td>
+                <td>10 – 14 Déc 2024</td>
+                <td style="color:var(--gold);font-weight:700;">18 000 DZD</td>
+                <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
+              </tr>
+              <tr>
+                <td><strong>KAC-1040</strong></td>
+                <td>Mohamed Rezki</td>
+                <td>Hyundai i10</td>
+                <td>08 – 10 Déc 2024</td>
+                <td style="color:var(--gold);font-weight:700;">5 000 DZD</td>
+                <td><span class="status-badge status-pending">⏳ En attente</span></td>
+              </tr>
+              <tr>
+                <td><strong>KAC-1039</strong></td>
+                <td>Fatima Zerrouki</td>
+                <td>Dacia Logan</td>
+                <td>05 – 08 Déc 2024</td>
+                <td style="color:var(--gold);font-weight:700;">10 500 DZD</td>
+                <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
+              </tr>
+              <tr>
+                <td><strong>KAC-1038</strong></td>
+                <td>Omar Khelil</td>
+                <td>Peugeot 208</td>
+                <td>01 – 03 Déc 2024</td>
+                <td style="color:var(--gold);font-weight:700;">6 400 DZD</td>
+                <td><span class="status-badge status-cancelled">❌ Annulé</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- ===== RESERVATIONS PANEL ===== -->
+      <div class="admin-panel" id="panel-reservations">
+        <div class="admin-section-header">
+          <div class="admin-section-title">📅 Toutes les réservations</div>
+          <button class="btn btn-primary" id="add-res-btn" style="font-size:0.82rem;padding:10px 18px;">+ Nouvelle</button>
+        </div>
+
+        <div class="search-bar" id="res-search-bar">
+          <input class="search-input" type="text" id="res-search" placeholder="🔍 Rechercher un client, une réf..." />
+          <select class="form-control" id="res-filter-status" style="max-width:160px;padding:10px 14px;height:auto;">
+            <option value="">Tous les statuts</option>
+            <option value="confirmed">Confirmé</option>
+            <option value="pending">En attente</option>
+            <option value="cancelled">Annulé</option>
+          </select>
+        </div>
+
+        <div class="table-card" id="res-table-card">
+          <table class="data-table" id="res-table">
+            <thead>
+              <tr>
+                <th>Réf.</th>
+                <th>Client</th>
+                <th>Téléphone</th>
+                <th>Véhicule</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="res-tbody">
+              <tr><td><strong>KAC-1042</strong></td><td>Karim Bensalem</td><td>0770123456</td><td>Clio 5</td><td>12/12</td><td>15/12</td><td style="color:var(--gold);font-weight:700;">9 000</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1042">✏️</button> <button class="action-btn action-btn-del" id="del-res-1042">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1041</strong></td><td>Samia Lamine</td><td>0660987654</td><td>Geely GX3</td><td>10/12</td><td>14/12</td><td style="color:var(--gold);font-weight:700;">18 000</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1041">✏️</button> <button class="action-btn action-btn-del" id="del-res-1041">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1040</strong></td><td>Mohamed Rezki</td><td>0550456123</td><td>i10</td><td>08/12</td><td>10/12</td><td style="color:var(--gold);font-weight:700;">5 000</td><td><span class="status-badge status-pending">En attente</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1040">✏️</button> <button class="action-btn action-btn-del" id="del-res-1040">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1039</strong></td><td>Fatima Zerrouki</td><td>0770654321</td><td>Logan</td><td>05/12</td><td>08/12</td><td style="color:var(--gold);font-weight:700;">10 500</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1039">✏️</button> <button class="action-btn action-btn-del" id="del-res-1039">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1038</strong></td><td>Omar Khelil</td><td>0660111222</td><td>Peugeot 208</td><td>01/12</td><td>03/12</td><td style="color:var(--gold);font-weight:700;">6 400</td><td><span class="status-badge status-cancelled">Annulé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1038">✏️</button> <button class="action-btn action-btn-del" id="del-res-1038">🗑️</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== VEHICLES PANEL ===== -->
+      <div class="admin-panel" id="panel-vehicles">
+        <div class="admin-section-header">
+          <div class="admin-section-title">🚗 Gestion des véhicules</div>
+          <button class="btn btn-primary" id="add-car-btn" style="font-size:0.82rem;padding:10px 18px;">+ Ajouter</button>
+        </div>
+        <div class="table-card" id="vehicles-table-card">
+          <table class="data-table" id="vehicles-table">
+            <thead>
+              <tr><th>ID</th><th>Véhicule</th><th>Catégorie</th><th>Immatriculation</th><th>Prix/jour</th><th>Kilométrage</th><th>Statut</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="vehicles-tbody">
+              <tr><td>V001</td><td>Renault Clio 5</td><td>Économique</td><td>12345-217-31</td><td style="color:var(--gold);">3 000 DZD</td><td>45 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-1">✏️</button></td></tr>
+              <tr><td>V002</td><td>Geely GX3 Pro</td><td>SUV</td><td>54321-217-31</td><td style="color:var(--gold);">4 500 DZD</td><td>22 800 km</td><td><span class="status-badge status-rented">En location</span></td><td><button class="action-btn action-btn-edit" id="edit-car-2">✏️</button></td></tr>
+              <tr><td>V003</td><td>Hyundai i10</td><td>Compacte</td><td>67890-217-31</td><td style="color:var(--gold);">2 500 DZD</td><td>61 000 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-3">✏️</button></td></tr>
+              <tr><td>V004</td><td>Dacia Logan</td><td>Familiale</td><td>11111-217-31</td><td style="color:var(--gold);">3 500 DZD</td><td>38 500 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-4">✏️</button></td></tr>
+              <tr><td>V005</td><td>Peugeot 208</td><td>Économique</td><td>22222-217-31</td><td style="color:var(--gold);">3 200 DZD</td><td>29 100 km</td><td><span class="status-badge status-maintenance">Révision</span></td><td><button class="action-btn action-btn-edit" id="edit-car-5">✏️</button></td></tr>
+              <tr><td>V006</td><td>Renault Kangoo</td><td>Utilitaire</td><td>33333-217-31</td><td style="color:var(--gold);">4 000 DZD</td><td>78 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-6">✏️</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CLIENTS PANEL ===== -->
+      <div class="admin-panel" id="panel-clients">
+        <div class="admin-section-header">
+          <div class="admin-section-title">👥 Gestion des clients</div>
+        </div>
+        <div class="search-bar" id="cli-search-bar">
+          <input class="search-input" type="text" id="cli-search" placeholder="🔍 Rechercher un client..." />
+        </div>
+        <div class="table-card" id="clients-table-card">
+          <table class="data-table" id="clients-table">
+            <thead>
+              <tr><th>ID</th><th>Nom complet</th><th>Téléphone</th><th>Email</th><th>Réservations</th><th>Dernier contact</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="clients-tbody">
+              <tr><td>C001</td><td>Karim Bensalem</td><td>0770123456</td><td>karim@email.com</td><td>3</td><td>12 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-1">👁️</button></td></tr>
+              <tr><td>C002</td><td>Samia Lamine</td><td>0660987654</td><td>samia@email.com</td><td>1</td><td>10 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-2">👁️</button></td></tr>
+              <tr><td>C003</td><td>Mohamed Rezki</td><td>0550456123</td><td>—</td><td>2</td><td>08 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-3">👁️</button></td></tr>
+              <tr><td>C004</td><td>Fatima Zerrouki</td><td>0770654321</td><td>fatima@email.com</td><td>1</td><td>05 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-4">👁️</button></td></tr>
+              <tr><td>C005</td><td>Omar Khelil</td><td>0660111222</td><td>—</td><td>1</td><td>01 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-5">👁️</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS PANEL ===== -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="admin-section-title" style="margin-bottom:24px;">⚙️ Paramètres</div>
+        <div style="background:var(--black-2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:32px;max-width:600px;">
+          <div style="margin-bottom:20px;" class="form-group">
+            <label class="form-label" for="setting-phone">📞 Téléphone affiché</label>
+            <input class="form-control" type="tel" id="setting-phone" value="0770 78 94 15" />
+          </div>
+          <div style="margin-bottom:20px;" class="form-group">
+            <label class="form-label" for="setting-email">📧 Email affiché</label>
+            <input class="form-control" type="email" id="setting-email" value="Gklocation93@gmail.com" />
+          </div>
+          <div style="margin-bottom:20px;" class="form-group">
+            <label class="form-label" for="setting-address">📍 Adresse</label>
+            <input class="form-control" type="text" id="setting-address" value="Oran, Algérie" />
+          </div>
+          <button class="btn btn-primary" id="save-settings-btn" onclick="showToast('Paramètres sauvegardés !')">💾 Sauvegarder</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="admin-toast" role="alert">
+    <span class="toast-icon">✅</span>
+    <span id="admin-toast-msg">Action effectuée</span>
+  </div>
+
+  <script>
+    // ===== Date =====
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-DZ', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    // ===== Login =====
+    // Demo credentials (hardcoded prototype — not for production)
+    const ADMIN_USER = 'admin';
+    const ADMIN_PASS = 'kachour2024';
+
+    document.getElementById('login-pass').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    function doLogin() {
+      const u = document.getElementById('login-user').value.trim();
+      const p = document.getElementById('login-pass').value;
+
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-layout').classList.add('active');
+      } else {
+        document.getElementById('login-err').style.display = 'block';
+        document.getElementById('login-pass').value = '';
+        document.getElementById('login-pass').focus();
+      }
+    }
+
+    function doLogout() {
+      document.getElementById('admin-layout').classList.remove('active');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+    }
+
+    // ===== Panel navigation =====
+    const panelTitles = {
+      dashboard:    '📊 Tableau de bord',
+      reservations: '📅 Réservations',
+      vehicles:     '🚗 Véhicules',
+      clients:      '👥 Clients',
+      settings:     '⚙️ Paramètres'
+    };
+
+    function showPanel(name) {
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-nav-link').forEach(l => l.classList.remove('active'));
+
+      document.getElementById('panel-' + name).classList.add('active');
+      document.getElementById('nav-' + name).classList.add('active');
+      document.getElementById('panel-title').textContent = panelTitles[name] || name;
+    }
+
+    // ===== Toast =====
+    function showToast(msg) {
+      const t = document.getElementById('admin-toast');
+      document.getElementById('admin-toast-msg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ===== Action button listeners =====
+    document.querySelectorAll('.action-btn-del').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (confirm('Supprimer cet élément ?')) {
+          this.closest('tr').style.opacity = '0.4';
+          showToast('Supprimé avec succès.');
+        }
+      });
+    });
+
+    document.querySelectorAll('.action-btn-edit').forEach(btn => {
+      btn.addEventListener('click', () => showToast('Mode édition activé (bientôt disponible).'));
+    });
+
+    document.querySelectorAll('.action-btn-view').forEach(btn => {
+      btn.addEventListener('click', () => showToast('Fiche client (bientôt disponible).'));
+    });
+
+    // ===== Search filters =====
+    document.getElementById('res-search').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('#res-tbody tr').forEach(tr => {
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
+    document.getElementById('cli-search').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('#clients-tbody tr').forEach(tr => {
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
