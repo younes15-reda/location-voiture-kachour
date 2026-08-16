@@ -15,7 +15,7 @@
 
     .booking-card {
       background: var(--black-2);
-      border: 1px solid rgba(245,196,0,0.12);
+      border: 1px solid rgba(245, 196, 0, 0.12);
       border-radius: var(--radius-xl);
       padding: 48px;
       box-shadow: var(--shadow-card);
@@ -28,7 +28,7 @@
     /* Summary card */
     .summary-card {
       background: var(--black-4);
-      border: 1px solid rgba(245,196,0,0.15);
+      border: 1px solid rgba(245, 196, 0, 0.15);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-bottom: 24px;
@@ -39,7 +39,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       font-size: 0.9rem;
     }
 
@@ -48,8 +48,8 @@
     .summary-row-value { font-weight: 600; }
 
     .summary-total {
-      background: rgba(245,196,0,0.08);
-      border: 1px solid rgba(245,196,0,0.2);
+      background: rgba(245, 196, 0, 0.08);
+      border: 1px solid rgba(245, 196, 0, 0.2);
       border-radius: var(--radius-md);
       padding: 16px 20px;
       display: flex;
@@ -75,22 +75,24 @@
     }
 
     .car-select-card {
-      border: 2px solid rgba(255,255,255,0.08);
+      border: 2px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-md);
       padding: 16px;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-hover);
       text-align: center;
       background: var(--black-4);
     }
 
     .car-select-card:hover {
-      border-color: rgba(245,196,0,0.4);
+      border-color: rgba(245, 196, 0, 0.4);
+      transform: translateY(-2px);
     }
 
     .car-select-card.selected {
       border-color: var(--gold);
-      background: rgba(245,196,0,0.06);
+      background: rgba(245, 196, 0, 0.08);
+      box-shadow: 0 4px 20px rgba(245, 196, 0, 0.15);
     }
 
     .car-select-card img {
@@ -116,14 +118,14 @@
     .success-icon {
       width: 80px; height: 80px;
       border-radius: 50%;
-      background: rgba(245,196,0,0.15);
+      background: rgba(245, 196, 0, 0.15);
       border: 2px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 2.4rem;
       margin: 0 auto 24px;
-      animation: pop-in 0.5s cubic-bezier(0.16,1,0.3,1);
+      animation: pop-in 0.5s var(--easing-premium);
     }
 
     @keyframes pop-in {
@@ -133,8 +135,8 @@
 
     .ref-number {
       display: inline-block;
-      background: rgba(245,196,0,0.1);
-      border: 1px solid rgba(245,196,0,0.3);
+      background: rgba(245, 196, 0, 0.1);
+      border: 1px solid rgba(245, 196, 0, 0.3);
       border-radius: var(--radius-md);
       padding: 12px 24px;
       font-family: var(--font-heading);
@@ -160,10 +162,13 @@
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
     <div class="container nav-inner">
       <a href="index.html" class="nav-logo" id="nav-logo-link">
-        <img src="assets/images/logo.jpg" alt="Kachour Oran Logo" width="44" height="44" />
+        <picture>
+          <source srcset="assets/images/logo.webp" type="image/webp" />
+          <img src="assets/images/logo.jpg" alt="Kachour Oran Logo" width="44" height="44" />
+        </picture>
         <div class="nav-logo-text">KACHOUR<span>— ORAN —</span></div>
       </a>
       <ul class="nav-links">
@@ -184,7 +189,7 @@
     <a href="vehicules.html" id="mob-vehicules">🚗 Véhicules</a>
     <a href="reservation.html" class="active" id="mob-reservation">📅 Réservation</a>
     <a href="contact.html" id="mob-contact">📞 Contact</a>
-    <div style="margin-top:8px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="margin-top:8px;padding-top:16px;border-top:1px solid rgba(255, 255, 255, 0.08);">
       <a href="tel:+213770789415" class="btn btn-primary" id="mob-phone-btn" style="width:100%;justify-content:center;">📞 0770 78 94 15</a>
     </div>
   </div>
@@ -200,7 +205,7 @@
     </div>
 
     <!-- Steps bar -->
-    <div class="steps-bar" id="steps-bar" role="progressbar" aria-label="Étapes de réservation">
+    <div class="steps-bar reveal" id="steps-bar" role="progressbar" aria-label="Étapes de réservation">
       <div class="step-item active" id="step-ind-1">
         <div class="step-circle">1</div>
         <div class="step-label">Véhicule</div>
@@ -219,7 +224,7 @@
       </div>
     </div>
 
-    <div class="booking-card" id="booking-card">
+    <div class="booking-card reveal" id="booking-card">
 
       <!-- ===== STEP 1: Choose Car ===== -->
       <div class="step-content active" id="step-1">
@@ -228,17 +233,26 @@
 
         <div class="car-select-grid" id="car-select-grid">
           <div class="car-select-card" id="select-clio5" onclick="selectCar(this, 'Renault Clio 5', 3000)" data-car="clio5">
-            <img src="assets/images/clio5.jpg" alt="Clio 5" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/clio5.webp" type="image/webp" />
+              <img src="assets/images/clio5.jpg" alt="Clio 5" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-select-name">Renault Clio 5</div>
             <div class="car-select-price">3 000 DZD/jour</div>
           </div>
           <div class="car-select-card" id="select-geely" onclick="selectCar(this, 'Geely GX3 Pro', 4500)" data-car="geely">
-            <img src="assets/images/geely_gx3.jpg" alt="Geely GX3" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/geely_gx3.webp" type="image/webp" />
+              <img src="assets/images/geely_gx3.jpg" alt="Geely GX3" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-select-name">Geely GX3 Pro</div>
             <div class="car-select-price">4 500 DZD/jour</div>
           </div>
           <div class="car-select-card" id="select-i10" onclick="selectCar(this, 'Hyundai i10', 2500)" data-car="i10">
-            <img src="assets/images/hyundai_i10.jpg" alt="Hyundai i10" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/hyundai_i10.webp" type="image/webp" />
+              <img src="assets/images/hyundai_i10.jpg" alt="Hyundai i10" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-select-name">Hyundai i10</div>
             <div class="car-select-price">2 500 DZD/jour</div>
           </div>
@@ -283,7 +297,7 @@
         </div>
 
         <!-- Duration display -->
-        <div id="duration-display" style="background:rgba(245,196,0,0.07);border:1px solid rgba(245,196,0,0.2);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;display:none;">
+        <div id="duration-display" style="background:rgba(245, 196, 0, 0.07);border:1px solid rgba(245, 196, 0, 0.2);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;display:none;">
           <span style="color:var(--grey-2);font-size:0.85rem;">Durée de location : </span>
           <strong id="duration-text" style="color:var(--gold);"></strong>
         </div>
@@ -389,11 +403,16 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="footer" id="footer">
+  <footer class="footer" id="footer" role="contentinfo">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="assets/images/logo.jpg" alt="Kachour Oran" width="100" height="50" loading="lazy" /></div>
+          <div class="footer-logo">
+            <picture>
+              <source srcset="assets/images/logo.webp" type="image/webp" />
+              <img src="assets/images/logo.jpg" alt="Kachour Oran" width="100" height="50" loading="lazy" decoding="async" />
+            </picture>
+          </div>
           <p class="footer-desc">Kachour Oran — votre partenaire de confiance pour la location de voitures à Oran.</p>
         </div>
         <div>
@@ -428,8 +447,14 @@
 
   <a class="whatsapp-float" id="wa-float" href="https://wa.me/213770789415?text=Bonjour%20Kachour%20Oran" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
 
+  <!-- CDN Scripts: Lenis + GSAP + ScrollTrigger -->
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
   <script>
-    // ===== State =====
+    // ===== Booking State =====
     let booking = {
       car: '', carName: '', carPrice: 0,
       pickup: '',
@@ -439,40 +464,26 @@
 
     let currentStep = 1;
 
-    // ===== Navbar scroll =====
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
-
-    // ===== Hamburger =====
-    const hamburger = document.getElementById('hamburger');
-    const navMobile = document.getElementById('nav-mobile');
-    hamburger.addEventListener('click', () => {
-      const open = navMobile.classList.toggle('open');
-      hamburger.classList.toggle('active', open);
-      hamburger.setAttribute('aria-expanded', open);
-    });
-
-    // ===== Reveal =====
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-    // ===== Set min dates =====
+    // Set min dates
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('date-start').min = today;
-    document.getElementById('date-end').min = today;
+    const dateStartInput = document.getElementById('date-start');
+    const dateEndInput = document.getElementById('date-end');
 
-    document.getElementById('date-start').addEventListener('change', function() {
-      document.getElementById('date-end').min = this.value;
-      updateDuration();
-    });
+    if (dateStartInput && dateEndInput) {
+      dateStartInput.min = today;
+      dateEndInput.min = today;
 
-    document.getElementById('date-end').addEventListener('change', updateDuration);
+      dateStartInput.addEventListener('change', function() {
+        dateEndInput.min = this.value;
+        updateDuration();
+      });
+
+      dateEndInput.addEventListener('change', updateDuration);
+    }
 
     function updateDuration() {
-      const s = document.getElementById('date-start').value;
-      const e = document.getElementById('date-end').value;
+      const s = dateStartInput.value;
+      const e = dateEndInput.value;
       if (s && e) {
         const diff = (new Date(e) - new Date(s)) / (1000 * 60 * 60 * 24);
         if (diff > 0) {
@@ -484,7 +495,7 @@
       }
     }
 
-    // ===== Select car =====
+    // Select car
     function selectCar(el, name, price) {
       document.querySelectorAll('.car-select-card').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
@@ -493,19 +504,17 @@
       booking.carPrice = price;
     }
 
-    // ===== Validate phone (Algerian format) =====
+    // Validate Algerian phone
     function validatePhone(phone) {
       return /^(0|\+213)[567][0-9]{8}$/.test(phone.replace(/\s+/g, ''));
     }
 
-    // ===== Navigate steps =====
+    // Navigate steps
     function goToStep(step) {
-      // Validate current step before advancing
       if (step > currentStep) {
         if (!validateStep(currentStep)) return;
       }
 
-      // Collect data
       if (currentStep === 1) {
         booking.pickup = document.getElementById('pickup-location').value;
       }
@@ -525,23 +534,26 @@
         populateSummary();
       }
 
-      // Hide all, show target
       document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
       document.getElementById('step-' + step).classList.add('active');
 
-      // Update step indicators
       updateStepIndicators(step);
       currentStep = step;
 
-      // Scroll to top of booking card
-      document.getElementById('booking-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const card = document.getElementById('booking-card');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function validateStep(step) {
       let valid = true;
 
       if (step === 1) {
-        if (!booking.car) { showToastErr('Veuillez sélectionner un véhicule.'); return false; }
+        if (!booking.car) {
+          window.showToast('Veuillez sélectionner un véhicule.', '⚠️');
+          return false;
+        }
         const pickup = document.getElementById('pickup-location').value;
         const errPickup = document.getElementById('err-pickup');
         if (!pickup) {
@@ -560,14 +572,23 @@
         const errS = document.getElementById('err-date-start');
         const errE = document.getElementById('err-date-end');
 
-        if (!s) { errS.classList.add('show'); document.getElementById('date-start').classList.add('error'); valid = false; }
-        else { errS.classList.remove('show'); document.getElementById('date-start').classList.remove('error'); }
+        if (!s) {
+          errS.classList.add('show');
+          document.getElementById('date-start').classList.add('error');
+          valid = false;
+        } else {
+          errS.classList.remove('show');
+          document.getElementById('date-start').classList.remove('error');
+        }
 
         const diff = s && e ? (new Date(e) - new Date(s)) / 86400000 : -1;
         if (!e || diff <= 0) {
-          errE.classList.add('show'); document.getElementById('date-end').classList.add('error'); valid = false;
+          errE.classList.add('show');
+          document.getElementById('date-end').classList.add('error');
+          valid = false;
         } else {
-          errE.classList.remove('show'); document.getElementById('date-end').classList.remove('error');
+          errE.classList.remove('show');
+          document.getElementById('date-end').classList.remove('error');
           booking.days = diff;
         }
       }
@@ -581,15 +602,32 @@
         const errLn = document.getElementById('err-last-name');
         const errPh = document.getElementById('err-phone');
 
-        if (!fn) { errFn.classList.add('show'); document.getElementById('first-name').classList.add('error'); valid = false; }
-        else { errFn.classList.remove('show'); document.getElementById('first-name').classList.remove('error'); }
+        if (!fn) {
+          errFn.classList.add('show');
+          document.getElementById('first-name').classList.add('error');
+          valid = false;
+        } else {
+          errFn.classList.remove('show');
+          document.getElementById('first-name').classList.remove('error');
+        }
 
-        if (!ln) { errLn.classList.add('show'); document.getElementById('last-name').classList.add('error'); valid = false; }
-        else { errLn.classList.remove('show'); document.getElementById('last-name').classList.remove('error'); }
+        if (!ln) {
+          errLn.classList.add('show');
+          document.getElementById('last-name').classList.add('error');
+          valid = false;
+        } else {
+          errLn.classList.remove('show');
+          document.getElementById('last-name').classList.remove('error');
+        }
 
         if (!ph || !validatePhone(ph)) {
-          errPh.classList.add('show'); document.getElementById('phone').classList.add('error'); valid = false;
-        } else { errPh.classList.remove('show'); document.getElementById('phone').classList.remove('error'); }
+          errPh.classList.add('show');
+          document.getElementById('phone').classList.add('error');
+          valid = false;
+        } else {
+          errPh.classList.remove('show');
+          document.getElementById('phone').classList.remove('error');
+        }
       }
 
       return valid;
@@ -636,22 +674,16 @@
 
       window.open('https://wa.me/213770789415?text=' + msg, '_blank');
 
-      // Show success
+      // Show success step
       document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
       document.getElementById('step-success').classList.add('active');
       document.getElementById('steps-bar').style.display = 'none';
 
-      // Generate ref number
       const ref = 'KAC-' + Math.floor(1000 + Math.random() * 9000);
       document.getElementById('ref-number').textContent = ref;
     }
 
-    function showToastErr(msg) {
-      // small inline error feedback
-      alert(msg);
-    }
-
-    // ===== Pre-select car from URL params =====
+    // Pre-select car from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const urlCar = urlParams.get('car');
     if (urlCar) {

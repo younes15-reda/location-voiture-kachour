@@ -10,7 +10,7 @@
     /* ---- Filters ---- */
     .filters-bar {
       background: var(--black-2);
-      border-bottom: 1px solid rgba(245,196,0,0.1);
+      border-bottom: 1px solid rgba(245, 196, 0, 0.1);
       padding: 20px 0;
       position: sticky;
       top: var(--nav-height);
@@ -27,14 +27,14 @@
     .filter-btn {
       padding: 8px 20px;
       border-radius: 50px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.7);
       font-size: 0.82rem;
       font-weight: 600;
       font-family: var(--font-body);
       letter-spacing: 0.04em;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
       background: transparent;
     }
 
@@ -65,7 +65,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform var(--transition-slow);
+      transition: transform var(--transition-normal);
     }
 
     .card:hover .car-card-img-wrap img { transform: scale(1.05); }
@@ -76,23 +76,21 @@
     .car-name { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
     .car-category { font-size: 0.78rem; font-weight: 600; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
 
-    .car-specs { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+    .car-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
     .car-spec { display: flex; flex-direction: column; gap: 4px; }
     .car-spec-label { font-size: 0.7rem; color: var(--grey-2); text-transform: uppercase; letter-spacing: 0.05em; }
     .car-spec-value { font-size: 0.85rem; font-weight: 600; }
 
-    .car-divider { height:1px; background: rgba(255,255,255,0.07); margin: 16px 0; }
+    .car-divider { height: 1px; background: rgba(255, 255, 255, 0.07); margin: 16px 0; }
     .car-price-row { display: flex; align-items: center; justify-content: space-between; }
     .car-price-label { font-size: 0.72rem; color: var(--grey-2); margin-bottom: 2px; }
     .car-price { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; color: var(--gold); }
-    .car-price span { font-size:0.8rem; font-weight:500; color:var(--grey-2); }
-
-    .car-card-hidden { display: none; }
+    .car-price span { font-size: 0.8rem; font-weight: 500; color: var(--grey-2); }
 
     /* ---- Info banner ---- */
     .info-banner {
-      background: rgba(245,196,0,0.07);
-      border: 1px solid rgba(245,196,0,0.2);
+      background: rgba(245, 196, 0, 0.07);
+      border: 1px solid rgba(245, 196, 0, 0.2);
       border-radius: var(--radius-lg);
       padding: 28px 32px;
       display: flex;
@@ -111,10 +109,13 @@
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
     <div class="container nav-inner">
       <a href="index.html" class="nav-logo" id="nav-logo-link">
-        <img src="assets/images/logo.jpg" alt="Kachour Oran Logo" width="44" height="44" />
+        <picture>
+          <source srcset="assets/images/logo.webp" type="image/webp" />
+          <img src="assets/images/logo.jpg" alt="Kachour Oran Logo" width="44" height="44" />
+        </picture>
         <div class="nav-logo-text">KACHOUR<span>— ORAN —</span></div>
       </a>
       <ul class="nav-links">
@@ -135,7 +136,7 @@
     <a href="vehicules.html" class="active" id="mob-vehicules">🚗 Véhicules</a>
     <a href="reservation.html" id="mob-reservation">📅 Réservation</a>
     <a href="contact.html" id="mob-contact">📞 Contact</a>
-    <div style="margin-top:8px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="margin-top:8px;padding-top:16px;border-top:1px solid rgba(255, 255, 255, 0.08);">
       <a href="tel:+213770789415" class="btn btn-primary" id="mob-phone-btn" style="width:100%;justify-content:center;">📞 0770 78 94 15</a>
     </div>
   </div>
@@ -144,8 +145,8 @@
   <section class="page-header" id="page-header">
     <div class="container">
       <div class="section-badge reveal" id="page-badge">Notre Flotte</div>
-      <h1 class="heading-xl reveal" id="page-title" style="transition-delay:0.1s">Tous nos <em style="color:var(--gold);font-style:normal;">Véhicules</em></h1>
-      <p class="text-grey body-lg reveal" style="max-width:500px;margin:16px auto 0;transition-delay:0.2s" id="page-desc">
+      <h1 class="heading-xl reveal" id="page-title">Tous nos <em style="color:var(--gold);font-style:normal;">Véhicules</em></h1>
+      <p class="text-grey body-lg reveal" style="max-width:500px;margin:16px auto 0;" id="page-desc">
         Sélectionnez le véhicule idéal pour votre voyage à Oran et ses environs.
       </p>
     </div>
@@ -180,9 +181,12 @@
       <div class="cars-full-grid" id="cars-full-grid">
 
         <!-- Clio 5 -->
-        <article class="card car-card reveal" data-cat="economique" id="car-clio5">
+        <article class="card car-card" data-cat="economique" id="car-clio5">
           <div class="car-card-img-wrap">
-            <img src="assets/images/clio5.jpg" alt="Renault Clio 5 Oran" width="400" height="300" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/clio5.webp" type="image/webp" />
+              <img src="assets/images/clio5.jpg" alt="Renault Clio 5 Oran" width="400" height="300" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-badge"><span class="badge badge-gold">Économique</span></div>
           </div>
           <div class="car-card-body">
@@ -205,9 +209,12 @@
         </article>
 
         <!-- Geely GX3 -->
-        <article class="card car-card reveal" data-cat="suv" id="car-geely" style="transition-delay:0.1s">
+        <article class="card car-card" data-cat="suv" id="car-geely">
           <div class="car-card-img-wrap">
-            <img src="assets/images/geely_gx3.jpg" alt="Geely GX3 Pro SUV Oran" width="400" height="300" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/geely_gx3.webp" type="image/webp" />
+              <img src="assets/images/geely_gx3.jpg" alt="Geely GX3 Pro SUV Oran" width="400" height="300" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-badge"><span class="badge badge-gold">SUV</span></div>
           </div>
           <div class="car-card-body">
@@ -230,9 +237,12 @@
         </article>
 
         <!-- Hyundai i10 -->
-        <article class="card car-card reveal" data-cat="economique" id="car-i10" style="transition-delay:0.2s">
+        <article class="card car-card" data-cat="economique" id="car-i10">
           <div class="car-card-img-wrap">
-            <img src="assets/images/hyundai_i10.jpg" alt="Hyundai i10 Oran" width="400" height="300" loading="lazy" />
+            <picture>
+              <source srcset="assets/images/hyundai_i10.webp" type="image/webp" />
+              <img src="assets/images/hyundai_i10.jpg" alt="Hyundai i10 Oran" width="400" height="300" loading="lazy" decoding="async" />
+            </picture>
             <div class="car-badge"><span class="badge badge-gold">Compacte</span></div>
           </div>
           <div class="car-card-body">
@@ -255,7 +265,7 @@
         </article>
 
         <!-- Dacia Logan -->
-        <article class="card car-card reveal" data-cat="familiale" id="car-logan" style="transition-delay:0.3s">
+        <article class="card car-card" data-cat="familiale" id="car-logan">
           <div class="car-card-img-wrap" style="background:#1a1a1a; display:flex; align-items:center; justify-content:center;">
             <div style="font-size:5rem; opacity:0.3;">🚙</div>
           </div>
@@ -279,7 +289,7 @@
         </article>
 
         <!-- Peugeot 208 -->
-        <article class="card car-card reveal" data-cat="economique" id="car-peugeot" style="transition-delay:0.4s">
+        <article class="card car-card" data-cat="economique" id="car-peugeot">
           <div class="car-card-img-wrap" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">
             <div style="font-size:5rem;opacity:0.3;">🚗</div>
           </div>
@@ -303,7 +313,7 @@
         </article>
 
         <!-- Utilitaire -->
-        <article class="card car-card reveal" data-cat="utilitaire" id="car-kangoo" style="transition-delay:0.5s">
+        <article class="card car-card" data-cat="utilitaire" id="car-kangoo">
           <div class="car-card-img-wrap" style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;">
             <div style="font-size:5rem;opacity:0.3;">🚐</div>
           </div>
@@ -339,11 +349,16 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="footer" id="footer">
+  <footer class="footer" id="footer" role="contentinfo">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="assets/images/logo.jpg" alt="Kachour Oran" width="100" height="50" loading="lazy" /></div>
+          <div class="footer-logo">
+            <picture>
+              <source srcset="assets/images/logo.webp" type="image/webp" />
+              <img src="assets/images/logo.jpg" alt="Kachour Oran" width="100" height="50" loading="lazy" decoding="async" />
+            </picture>
+          </div>
           <p class="footer-desc">Kachour Oran — votre partenaire de confiance pour la location de voitures à Oran.</p>
         </div>
         <div>
@@ -381,30 +396,19 @@
 
   <a class="whatsapp-float" id="wa-float" href="https://wa.me/213770789415?text=Bonjour%20Kachour%20Oran" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
 
+  <!-- CDN Scripts: Lenis + GSAP + ScrollTrigger -->
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
   <script>
-    // Navbar scroll
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
-
-    // Hamburger
-    const hamburger = document.getElementById('hamburger');
-    const navMobile = document.getElementById('nav-mobile');
-    hamburger.addEventListener('click', () => {
-      const open = navMobile.classList.toggle('open');
-      hamburger.classList.toggle('active', open);
-      hamburger.setAttribute('aria-expanded', open);
-    });
-
-    // Scroll reveal
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
     // Filter cars
     function filterCars(cat) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('filter-' + (cat === 'all' ? 'all' : cat === 'economique' ? 'eco' : cat === 'suv' ? 'suv' : cat === 'familiale' ? 'fam' : 'util')).classList.add('active');
+      const activeBtnId = 'filter-' + (cat === 'all' ? 'all' : cat === 'economique' ? 'eco' : cat === 'suv' ? 'suv' : cat === 'familiale' ? 'fam' : 'util');
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) activeBtn.classList.add('active');
 
       const cards = document.querySelectorAll('.car-card');
       let visible = 0;
@@ -414,6 +418,11 @@
         if (show) visible++;
       });
       document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+
+      // Refresh ScrollTrigger positions after filtering
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
     }
 
     // Read URL params for pre-filter

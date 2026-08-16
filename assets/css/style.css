@@ -1,6 +1,7 @@
 /* ===================================================
    KACHOUR ORAN — Design System
    Palette: #0a0a0a (noir), #f5c400 (or), #ffffff
+   Style: Sobre Premium (Automotive / Oran, Algérie)
    =================================================== */
 
 /* ---------- 1. Fonts ---------- */
@@ -28,12 +29,17 @@
   --radius-lg: 20px;
   --radius-xl: 32px;
 
-  --shadow-card: 0 8px 32px rgba(0,0,0,0.5);
-  --shadow-gold: 0 4px 24px rgba(245,196,0,0.25);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 4px 24px rgba(245, 196, 0, 0.25);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.7), 0 8px 24px rgba(245, 196, 0, 0.18);
 
-  --transition-fast:   0.2s cubic-bezier(0.16,1,0.3,1);
-  --transition-normal: 0.4s cubic-bezier(0.16,1,0.3,1);
-  --transition-slow:   0.7s cubic-bezier(0.16,1,0.3,1);
+  --easing-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --transition-fast:   0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-hover:  0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slow:   0.75s cubic-bezier(0.16, 1, 0.3, 1);
 
   --nav-height: 72px;
   --container:  1240px;
@@ -43,8 +49,28 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
+}
+
+/* Lenis smooth scroll requirements */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
@@ -54,6 +80,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img { max-width: 100%; display: block; }
@@ -101,10 +128,11 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   font-size: 0.9rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  transition: var(--transition-normal);
+  transition: transform var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), color var(--transition-normal);
   position: relative;
   overflow: hidden;
   min-height: 50px;
+  will-change: transform;
 }
 
 .btn-primary {
@@ -114,28 +142,27 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 }
 .btn-primary:hover {
   background: var(--gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(245,196,0,0.4);
+  box-shadow: 0 8px 32px rgba(245, 196, 0, 0.4);
 }
 
 .btn-outline {
   background: transparent;
   color: var(--white);
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 .btn-outline:hover {
   border-color: var(--gold);
   color: var(--gold);
-  transform: translateY(-2px);
 }
 
 .btn-whatsapp {
   background: #25D366;
   color: #fff;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
 }
 .btn-whatsapp:hover {
   background: #1aad52;
-  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.45);
 }
 
 /* ---------- 7. Navigation ---------- */
@@ -146,16 +173,17 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   height: var(--nav-height);
   display: flex;
   align-items: center;
-  background: rgba(10,10,10,0.85);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(245,196,0,0.1);
-  transition: var(--transition-normal);
+  border-bottom: 1px solid rgba(245, 196, 0, 0.1);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
 .navbar.scrolled {
-  background: rgba(10,10,10,0.97);
-  border-bottom-color: rgba(245,196,0,0.2);
+  background: rgba(10, 10, 10, 0.97);
+  border-bottom-color: rgba(245, 196, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .nav-inner {
@@ -204,8 +232,8 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
-  transition: var(--transition-fast);
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition-fast);
   position: relative;
   padding-bottom: 2px;
 }
@@ -218,7 +246,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   width: 0;
   height: 2px;
   background: var(--gold);
-  transition: var(--transition-fast);
+  transition: width var(--transition-fast);
 }
 
 .nav-links a:hover,
@@ -248,7 +276,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   height: 2px;
   background: var(--white);
   border-radius: 2px;
-  transition: var(--transition-fast);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -261,17 +289,18 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   position: fixed;
   top: var(--nav-height);
   left: 0; right: 0;
-  background: rgba(10,10,10,0.98);
+  background: rgba(10, 10, 10, 0.98);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 24px;
   flex-direction: column;
   gap: 8px;
-  border-bottom: 1px solid rgba(245,196,0,0.15);
+  border-bottom: 1px solid rgba(245, 196, 0, 0.15);
   z-index: 999;
   transform: translateY(-20px);
   opacity: 0;
   pointer-events: none;
-  transition: var(--transition-normal);
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
 }
 
 .nav-mobile.open {
@@ -289,14 +318,14 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-md);
-  transition: var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .nav-mobile a:hover,
 .nav-mobile a.active {
-  background: rgba(245,196,0,0.1);
+  background: rgba(245, 196, 0, 0.1);
   color: var(--gold);
 }
 
@@ -309,8 +338,8 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 .section-badge {
   display: inline-block;
   padding: 6px 16px;
-  background: rgba(245,196,0,0.12);
-  border: 1px solid rgba(245,196,0,0.3);
+  background: rgba(245, 196, 0, 0.12);
+  border: 1px solid rgba(245, 196, 0, 0.3);
   border-radius: 50px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -328,19 +357,26 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   border-radius: 2px;
 }
 
-/* ---------- 9. Cards ---------- */
+/* ---------- 9. Cards & Hover States ---------- */
 .card {
   background: var(--black-3);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   overflow: hidden;
-  transition: var(--transition-normal);
+  box-shadow: var(--shadow-card);
+  will-change: transform, box-shadow;
+  transition: transform var(--transition-hover), box-shadow var(--transition-hover), border-color var(--transition-normal);
 }
 
-.card:hover {
-  border-color: rgba(245,196,0,0.2);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card), var(--shadow-gold);
+/* Desktop hover effects: scale(1.03) + progressive shadow */
+@media (hover: hover) and (pointer: fine) {
+  .car-card:hover,
+  .testimonial-card:hover,
+  .feature-card:hover {
+    transform: scale(1.03);
+    border-color: rgba(245, 196, 0, 0.35);
+    box-shadow: var(--shadow-hover);
+  }
 }
 
 /* ---------- 10. Feature icons ---------- */
@@ -348,17 +384,20 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   width: 56px;
   height: 56px;
   border-radius: var(--radius-md);
-  background: rgba(245,196,0,0.12);
+  background: rgba(245, 196, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
   flex-shrink: 0;
-  transition: var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-normal);
 }
 
-.card:hover .feature-icon {
-  background: rgba(245,196,0,0.22);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .feature-icon {
+    background: rgba(245, 196, 0, 0.25);
+    transform: scale(1.08);
+  }
 }
 
 /* ---------- 11. Badge / Tags ---------- */
@@ -372,7 +411,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   text-transform: uppercase;
 }
 
-.badge-gold    { background: var(--gold); color: var(--black); }
+.badge-gold    { background: var(--gold); color: var(--black); font-weight: 700; }
 .badge-outline { border: 1px solid var(--gold); color: var(--gold); }
 
 /* ---------- 12. Stars ---------- */
@@ -393,19 +432,19 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   width: 100%;
   padding: 14px 18px;
   background: var(--black-4);
-  border: 1.5px solid rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-md);
   color: var(--white);
   font-family: var(--font-body);
   font-size: 0.95rem;
   outline: none;
-  transition: var(--transition-fast);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
   min-height: 50px;
 }
 
 .form-control:focus {
   border-color: var(--gold);
-  background: rgba(245,196,0,0.04);
+  background: rgba(245, 196, 0, 0.04);
 }
 
 .form-control::placeholder { color: var(--grey-3); }
@@ -436,7 +475,8 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   left: 50%;
   width: 100%;
   height: 2px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
+  transition: background-color var(--transition-normal);
 }
 
 .step-item.done:not(:last-child)::after,
@@ -449,14 +489,14 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   height: 40px;
   border-radius: 50%;
   background: var(--black-4);
-  border: 2px solid rgba(255,255,255,0.15);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 0.85rem;
   z-index: 1;
-  transition: var(--transition-normal);
+  transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
 }
 
 .step-item.active .step-circle {
@@ -481,25 +521,20 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 }
 
 .step-item.active .step-label { color: var(--gold); }
-.step-item.done  .step-label  { color: rgba(255,255,255,0.7); }
+.step-item.done  .step-label  { color: rgba(255, 255, 255, 0.7); }
 
-/* ---------- 15. Scroll animations ---------- */
-.reveal {
+/* ---------- 15. Scroll Reveal Fallback & Initial State ---------- */
+.reveal, .reveal-left, .reveal-right {
   opacity: 0;
-  transform: translateY(30px);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transform: translateY(28px);
+  will-change: opacity, transform;
 }
 
-.reveal-left  { opacity: 0; transform: translateX(-30px); }
-.reveal-right { opacity: 0; transform: translateX(30px); }
+.reveal.visible,
 .reveal-left.visible,
 .reveal-right.visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
@@ -518,7 +553,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   bottom: 30px;
   right: 30px;
   background: var(--black-3);
-  border: 1px solid rgba(245,196,0,0.3);
+  border: 1px solid rgba(245, 196, 0, 0.3);
   border-radius: var(--radius-md);
   padding: 16px 24px;
   display: flex;
@@ -529,7 +564,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   box-shadow: var(--shadow-card);
   z-index: 9999;
   transform: translateX(120%);
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  transition: transform 0.4s var(--easing-premium);
 }
 
 .toast.show { transform: translateX(0); }
@@ -538,7 +573,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 /* ---------- 18. Footer ---------- */
 .footer {
   background: #050505;
-  border-top: 1px solid rgba(245,196,0,0.1);
+  border-top: 1px solid rgba(245, 196, 0, 0.1);
   padding: 72px 0 32px;
 }
 
@@ -575,7 +610,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 .footer-links a {
   font-size: 0.88rem;
   color: var(--grey-2);
-  transition: var(--transition-fast);
+  transition: color var(--transition-fast), padding-left var(--transition-fast);
 }
 .footer-links a:hover { color: var(--white); padding-left: 6px; }
 
@@ -595,7 +630,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding-top: 24px;
   display: flex;
   align-items: center;
@@ -617,14 +652,14 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-  transition: var(--transition-normal);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   z-index: 990;
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 8px 32px rgba(37,211,102,0.5);
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.55);
 }
 
 /* Pulse ring */
@@ -633,7 +668,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 2px solid rgba(37,211,102,0.4);
+  border: 2px solid rgba(37, 211, 102, 0.4);
   animation: pulse-ring 2s ease infinite;
 }
 
@@ -646,7 +681,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 .page-header {
   padding: 140px 0 80px;
   text-align: center;
-  background: linear-gradient(180deg, rgba(245,196,0,0.05) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(245, 196, 0, 0.05) 0%, transparent 100%);
   position: relative;
   overflow: hidden;
 }
@@ -689,6 +724,13 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 
 /* ---------- 22. Prefers reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
   .whatsapp-float::before { animation: none; }
+  .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
