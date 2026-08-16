@@ -256,6 +256,30 @@
             <div class="car-select-name">Hyundai i10</div>
             <div class="car-select-price">2 500 DZD/jour</div>
           </div>
+          <div class="car-select-card" id="select-logan" onclick="selectCar(this, 'Dacia Logan', 3500)" data-car="logan">
+            <picture>
+              <source srcset="assets/images/logan.webp" type="image/webp" />
+              <img src="assets/images/logan.jpg" alt="Dacia Logan" loading="lazy" decoding="async" />
+            </picture>
+            <div class="car-select-name">Dacia Logan</div>
+            <div class="car-select-price">3 500 DZD/jour</div>
+          </div>
+          <div class="car-select-card" id="select-peugeot208" onclick="selectCar(this, 'Peugeot 208', 3200)" data-car="peugeot208">
+            <picture>
+              <source srcset="assets/images/peugeot208.webp" type="image/webp" />
+              <img src="assets/images/peugeot208.jpg" alt="Peugeot 208" loading="lazy" decoding="async" />
+            </picture>
+            <div class="car-select-name">Peugeot 208</div>
+            <div class="car-select-price">3 200 DZD/jour</div>
+          </div>
+          <div class="car-select-card" id="select-kangoo" onclick="selectCar(this, 'Renault Kangoo', 4000)" data-car="kangoo">
+            <picture>
+              <source srcset="assets/images/kangoo.webp" type="image/webp" />
+              <img src="assets/images/kangoo.jpg" alt="Renault Kangoo" loading="lazy" decoding="async" />
+            </picture>
+            <div class="car-select-name">Renault Kangoo</div>
+            <div class="car-select-price">4 000 DZD/jour</div>
+          </div>
         </div>
 
         <div class="form-group" style="margin-bottom:24px;">
@@ -690,8 +714,22 @@
     if (urlCar) {
       const el = document.getElementById('select-' + urlCar);
       if (el) {
-        const priceMap = { clio5: 3000, geely: 4500, i10: 2500 };
-        const nameMap  = { clio5: 'Renault Clio 5', geely: 'Geely GX3 Pro', i10: 'Hyundai i10' };
+        const priceMap = {
+          clio5: 3000,
+          geely: 4500,
+          i10: 2500,
+          logan: 3500,
+          peugeot208: 3200,
+          kangoo: 4000
+        };
+        const nameMap = {
+          clio5: 'Renault Clio 5',
+          geely: 'Geely GX3 Pro',
+          i10: 'Hyundai i10',
+          logan: 'Dacia Logan',
+          peugeot208: 'Peugeot 208',
+          kangoo: 'Renault Kangoo'
+        };
         selectCar(el, nameMap[urlCar], priceMap[urlCar]);
       }
     }
