@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Kachour Oran</title>
+  <title>Admin Dashboard — Kachour Oran</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
-    body { background: var(--black); }
+    body { background: var(--black); min-height: 100vh; }
 
     /* ---- Login Screen ---- */
     .login-screen {
@@ -16,27 +16,40 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      background: radial-gradient(circle at 50% 30%, rgba(245, 196, 0, 0.08) 0%, transparent 60%), var(--black);
     }
 
     .login-card {
       background: var(--black-2);
-      border: 1px solid rgba(245,196,0,0.15);
+      border: 1px solid rgba(245, 196, 0, 0.2);
       border-radius: var(--radius-xl);
-      padding: 48px;
+      padding: 44px;
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       text-align: center;
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--shadow-card), var(--shadow-gold);
     }
 
     .login-logo {
       width: 80px; height: 80px;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      margin: 0 auto 24px;
+      margin: 0 auto 20px;
+      border: 2px solid rgba(245, 196, 0, 0.3);
     }
 
     .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+    .proto-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(245, 196, 0, 0.12);
+      border: 1px dashed var(--gold);
+      border-radius: var(--radius-md);
+      font-size: 0.78rem;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
 
     /* ---- Admin Layout ---- */
     .admin-layout {
@@ -47,30 +60,31 @@
     .admin-layout.active { display: flex; }
 
     .admin-sidebar {
-      width: 260px;
+      width: 270px;
       min-height: 100vh;
       background: var(--black-2);
-      border-right: 1px solid rgba(245,196,0,0.1);
+      border-right: 1px solid rgba(245, 196, 0, 0.12);
       padding: 24px 0;
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 0; left: 0;
+      top: 0; left: 0; bottom: 0;
       z-index: 100;
+      overflow-y: auto;
     }
 
     .sidebar-logo {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 0 24px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 16px;
+      padding: 0 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 20px;
     }
 
     .sidebar-logo img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
     .sidebar-logo-text { font-family: var(--font-heading); font-weight: 800; font-size: 0.95rem; }
-    .sidebar-logo-badge { font-size: 0.65rem; color: var(--gold); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .sidebar-logo-badge { font-size: 0.65rem; color: var(--gold); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 
     .sidebar-nav { flex: 1; padding: 0 12px; }
 
@@ -82,29 +96,30 @@
       border-radius: var(--radius-md);
       font-size: 0.88rem;
       font-weight: 600;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255, 255, 255, 0.65);
       cursor: pointer;
-      transition: var(--transition-fast);
-      margin-bottom: 4px;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+      margin-bottom: 6px;
       border: none;
       background: none;
       width: 100%;
       text-align: left;
     }
 
-    .sidebar-nav-link:hover { background: rgba(255,255,255,0.05); color: var(--white); }
-    .sidebar-nav-link.active { background: rgba(245,196,0,0.12); color: var(--gold); }
+    .sidebar-nav-link:hover { background: rgba(255, 255, 255, 0.06); color: var(--white); }
+    .sidebar-nav-link.active { background: rgba(245, 196, 0, 0.14); color: var(--gold); }
 
-    .sidebar-nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar-nav-icon { font-size: 1.15rem; width: 24px; text-align: center; }
 
-    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: column; gap: 8px; }
 
     /* ---- Admin Main ---- */
     .admin-main {
-      margin-left: 260px;
+      margin-left: 270px;
       flex: 1;
-      padding: 32px;
+      padding: 32px 40px 60px;
       min-height: 100vh;
+      max-width: 1400px;
     }
 
     .admin-topbar {
@@ -112,10 +127,42 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .admin-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; }
-    .admin-date { font-size: 0.82rem; color: var(--grey-2); }
+    .admin-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; }
+    .admin-date { font-size: 0.82rem; color: var(--grey-2); margin-top: 4px; }
+
+    /* ---- Quick Nav Return Bar ---- */
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-live-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 196, 0, 0.12);
+      border: 1px solid rgba(245, 196, 0, 0.35);
+      color: var(--gold);
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: background-color var(--transition-fast), transform var(--transition-normal);
+    }
+
+    .btn-live-site:hover {
+      background: var(--gold);
+      color: var(--black);
+      transform: translateY(-2px);
+    }
 
     /* ---- KPI Cards ---- */
     .kpi-grid {
@@ -127,21 +174,139 @@
 
     .kpi-card {
       background: var(--black-2);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-lg);
       padding: 24px;
-      transition: var(--transition-fast);
+      transition: border-color var(--transition-fast), transform var(--transition-normal);
     }
 
-    .kpi-card:hover { border-color: rgba(245,196,0,0.2); }
+    .kpi-card:hover {
+      border-color: rgba(245, 196, 0, 0.3);
+      transform: translateY(-2px);
+    }
 
     .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .kpi-icon { font-size: 1.5rem; }
-    .kpi-trend { font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 50px; }
-    .kpi-trend.up { background: rgba(72,199,142,0.15); color: #48c78e; }
-    .kpi-trend.down { background: rgba(229,62,62,0.15); color: #e53e3e; }
-    .kpi-value { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; margin-bottom: 4px; }
+    .kpi-icon { font-size: 1.6rem; }
+    .kpi-trend { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 50px; }
+    .kpi-trend.up { background: rgba(72, 199, 142, 0.15); color: #48c78e; }
+    .kpi-trend.down { background: rgba(229, 62, 62, 0.15); color: #e53e3e; }
+    .kpi-value { font-family: var(--font-heading); font-size: 1.85rem; font-weight: 900; margin-bottom: 4px; color: var(--white); }
     .kpi-label { font-size: 0.78rem; color: var(--grey-2); font-weight: 500; }
+
+    /* ---- Statistics Section / Visual Charts ---- */
+    .stats-visual-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .stats-panel-card {
+      background: var(--black-2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .stats-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .stats-panel-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    /* Bar Chart representation */
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      height: 180px;
+      padding-top: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 12px;
+    }
+
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .bar-fill {
+      width: 100%;
+      max-width: 38px;
+      background: linear-gradient(180deg, var(--gold) 0%, rgba(245, 196, 0, 0.3) 100%);
+      border-radius: 6px 6px 0 0;
+      transition: height 0.6s var(--easing-premium);
+      position: relative;
+    }
+
+    .bar-fill:hover {
+      background: var(--gold);
+      box-shadow: 0 0 16px rgba(245, 196, 0, 0.4);
+    }
+
+    .bar-fill::after {
+      content: attr(data-val);
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .bar-label {
+      font-size: 0.72rem;
+      color: var(--grey-2);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Donut / Progress breakdown */
+    .progress-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-item-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: var(--black-4);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 50px;
+      transition: width 0.6s var(--easing-premium);
+    }
 
     /* ---- Tables ---- */
     .admin-panel { display: none; }
@@ -152,81 +317,87 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .admin-section-title {
       font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
     }
 
     .table-card {
       background: var(--black-2);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: var(--radius-lg);
-      overflow: hidden;
+      overflow-x: auto;
     }
 
     .data-table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 650px;
     }
 
     .data-table th {
       background: var(--black-3);
-      padding: 14px 16px;
+      padding: 14px 18px;
       text-align: left;
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--grey-2);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .data-table td {
-      padding: 14px 16px;
+      padding: 16px 18px;
       font-size: 0.88rem;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       vertical-align: middle;
     }
 
     .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:hover td { background: rgba(245,196,0,0.03); }
+    .data-table tr:hover td { background: rgba(245, 196, 0, 0.03); }
 
     /* Status badges */
     .status-badge {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 50px;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 700;
       letter-spacing: 0.04em;
     }
 
-    .status-confirmed  { background: rgba(72,199,142,0.15); color: #48c78e; }
-    .status-pending    { background: rgba(245,196,0,0.15); color: #f5c400; }
-    .status-cancelled  { background: rgba(229,62,62,0.15); color: #e53e3e; }
-    .status-available  { background: rgba(72,199,142,0.15); color: #48c78e; }
-    .status-rented     { background: rgba(245,196,0,0.15); color: #f5c400; }
-    .status-maintenance{ background: rgba(229,62,62,0.15); color: #e53e3e; }
+    .status-confirmed  { background: rgba(72, 199, 142, 0.15); color: #48c78e; border: 1px solid rgba(72, 199, 142, 0.3); }
+    .status-pending    { background: rgba(245, 196, 0, 0.15); color: #f5c400; border: 1px solid rgba(245, 196, 0, 0.3); }
+    .status-cancelled  { background: rgba(229, 62, 62, 0.15); color: #e53e3e; border: 1px solid rgba(229, 62, 62, 0.3); }
+    .status-available  { background: rgba(72, 199, 142, 0.15); color: #48c78e; border: 1px solid rgba(72, 199, 142, 0.3); }
+    .status-rented     { background: rgba(245, 196, 0, 0.15); color: #f5c400; border: 1px solid rgba(245, 196, 0, 0.3); }
+    .status-maintenance{ background: rgba(229, 62, 62, 0.15); color: #e53e3e; border: 1px solid rgba(229, 62, 62, 0.3); }
 
     /* ---- Action buttons ---- */
     .action-btn {
       padding: 6px 12px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: var(--transition-fast);
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
       font-family: var(--font-body);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .action-btn-view  { background: rgba(255,255,255,0.08); color: var(--white); }
-    .action-btn-edit  { background: rgba(245,196,0,0.12); color: var(--gold); }
-    .action-btn-del   { background: rgba(229,62,62,0.12); color: #e53e3e; }
-    .action-btn:hover { opacity: 0.8; transform: translateY(-1px); }
+    .action-btn-view  { background: rgba(255, 255, 255, 0.08); color: var(--white); }
+    .action-btn-edit  { background: rgba(245, 196, 0, 0.12); color: var(--gold); }
+    .action-btn-del   { background: rgba(229, 62, 62, 0.12); color: #e53e3e; }
+    .action-btn:hover { opacity: 0.85; transform: translateY(-1px); }
 
     /* ---- Search / filter bar ---- */
     .search-bar {
@@ -239,28 +410,71 @@
 
     .search-input {
       flex: 1;
-      min-width: 200px;
-      padding: 10px 16px;
+      min-width: 220px;
+      padding: 12px 18px;
       background: var(--black-3);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: var(--radius-md);
       color: var(--white);
       font-size: 0.88rem;
       outline: none;
+      transition: border-color var(--transition-fast);
     }
 
     .search-input:focus { border-color: var(--gold); }
 
+    /* Modal for Adding Item */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--black-2);
+      border: 1px solid rgba(245, 196, 0, 0.3);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-close {
+      font-size: 1.5rem;
+      color: var(--grey-2);
+      cursor: pointer;
+    }
+
+    .modal-close:hover { color: var(--white); }
+
     /* ---- Responsive ---- */
     @media (max-width: 1024px) {
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-visual-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
-      .admin-sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+      .admin-sidebar { transform: translateX(-100%); transition: transform 0.3s var(--easing-premium); }
       .admin-sidebar.open { transform: translateX(0); }
-      .admin-main { margin-left: 0; padding: 16px; }
+      .admin-main { margin-left: 0; padding: 20px 16px; }
       .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .topbar-actions { width: 100%; justify-content: space-between; }
     }
   </style>
 </head>
@@ -270,32 +484,42 @@
   <div class="login-screen" id="login-screen">
     <div class="login-card" id="login-card">
       <div class="login-logo">
-        <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+        <picture>
+          <source srcset="assets/images/logo.webp" type="image/webp" />
+          <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+        </picture>
       </div>
-      <h1 class="heading-sm" style="margin-bottom:6px;">Espace Admin</h1>
-      <p class="body-sm text-grey" style="margin-bottom:28px;">Kachour Oran — Tableau de bord</p>
+      <h1 class="heading-sm" style="margin-bottom:6px;">Espace Administrateur</h1>
+      <p class="body-sm text-grey" style="margin-bottom:16px;">Kachour Oran — Gestion & Réservations</p>
+
+      <div class="proto-badge">
+        💡 Prototype de démonstration<br />
+        <strong>Identifiant :</strong> <code>admin</code> &nbsp;|&nbsp; <strong>MDP :</strong> <code>kachour2024</code>
+      </div>
 
       <div class="form-group" style="margin-bottom:16px;text-align:left;">
         <label class="form-label" for="login-user">Identifiant</label>
-        <input class="form-control" type="text" id="login-user" placeholder="admin" />
+        <input class="form-control" type="text" id="login-user" value="admin" />
       </div>
 
       <div class="form-group" style="margin-bottom:24px;text-align:left;">
         <label class="form-label" for="login-pass">Mot de passe</label>
-        <input class="form-control" type="password" id="login-pass" placeholder="••••••••" />
+        <input class="form-control" type="password" id="login-pass" value="kachour2024" />
       </div>
 
-      <div id="login-err" style="color:#e53e3e;font-size:0.82rem;margin-bottom:12px;display:none;">
+      <div id="login-err" style="color:#e53e3e;font-size:0.82rem;margin-bottom:14px;display:none;">
         ❌ Identifiants incorrects
       </div>
 
       <button class="btn btn-primary" id="login-btn" onclick="doLogin()" style="width:100%;justify-content:center;">
-        🔐 Connexion
+        🔐 Accéder au Dashboard
       </button>
 
-      <p class="body-sm text-grey" style="margin-top:20px;">
-        <a href="index.html" style="color:var(--gold);">← Retour au site</a>
-      </p>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);">
+        <a href="index.html" class="btn-live-site" style="width:100%;justify-content:center;">
+          🌐 Retourner au site public
+        </a>
+      </div>
     </div>
   </div>
 
@@ -305,7 +529,10 @@
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="admin-sidebar" role="navigation" aria-label="Menu admin">
       <div class="sidebar-logo">
-        <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+        <picture>
+          <source srcset="assets/images/logo.webp" type="image/webp" />
+          <img src="assets/images/logo.jpg" alt="Kachour Oran" />
+        </picture>
         <div>
           <div class="sidebar-logo-text">KACHOUR</div>
           <div class="sidebar-logo-badge">Administration</div>
@@ -331,7 +558,10 @@
       </nav>
 
       <div class="sidebar-footer">
-        <button class="sidebar-nav-link" id="logout-btn" onclick="doLogout()" style="color:#e53e3e;">
+        <a href="index.html" class="btn-live-site" target="_blank" style="justify-content:center;">
+          🌐 Voir le site public ↗
+        </a>
+        <button class="sidebar-nav-link" id="logout-btn" onclick="doLogout()" style="color:#e53e3e;margin-top:4px;">
           <span class="sidebar-nav-icon">🚪</span> Déconnexion
         </button>
       </div>
@@ -342,12 +572,16 @@
 
       <div class="admin-topbar">
         <div>
-          <div class="admin-title" id="panel-title">Tableau de bord</div>
+          <div class="admin-title" id="panel-title">📊 Tableau de bord</div>
           <div class="admin-date" id="current-date"></div>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <a href="index.html" class="btn btn-outline" id="view-site-btn" style="font-size:0.8rem;padding:10px 18px;" target="_blank">🌐 Voir le site</a>
-          <div style="width:38px;height:38px;background:rgba(245,196,0,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">👤</div>
+        <div class="topbar-actions">
+          <a href="index.html" class="btn-live-site" target="_blank" id="view-site-topbar-btn">
+            🌐 Aller sur le site en direct ↗
+          </a>
+          <button class="btn btn-outline" onclick="openAddResModal()" style="font-size:0.82rem;padding:10px 18px;">
+            + Nouvelle réservation
+          </button>
         </div>
       </div>
 
@@ -359,41 +593,121 @@
           <div class="kpi-card" id="kpi-reservations">
             <div class="kpi-top">
               <span class="kpi-icon">📅</span>
-              <span class="kpi-trend up" id="kpi-res-trend">+12%</span>
+              <span class="kpi-trend up" id="kpi-res-trend">+18% ce mois</span>
             </div>
-            <div class="kpi-value" id="kpi-res-val">24</div>
-            <div class="kpi-label">Réservations ce mois</div>
+            <div class="kpi-value" id="kpi-res-val">28</div>
+            <div class="kpi-label">Réservations validées</div>
           </div>
+
           <div class="kpi-card" id="kpi-revenue">
             <div class="kpi-top">
               <span class="kpi-icon">💰</span>
-              <span class="kpi-trend up" id="kpi-rev-trend">+8%</span>
+              <span class="kpi-trend up" id="kpi-rev-trend">+14%</span>
             </div>
-            <div class="kpi-value" id="kpi-rev-val">186 000</div>
-            <div class="kpi-label">Chiffre d'affaires (DZD)</div>
+            <div class="kpi-value" id="kpi-rev-val">245 000 <span style="font-size:1rem;color:var(--gold);">DZD</span></div>
+            <div class="kpi-label">Chiffre d'affaires mensuel</div>
           </div>
+
           <div class="kpi-card" id="kpi-cars">
             <div class="kpi-top">
               <span class="kpi-icon">🚗</span>
-              <span class="kpi-trend up" id="kpi-cars-trend">+2</span>
+              <span class="kpi-trend up" id="kpi-cars-trend">83% occupation</span>
             </div>
-            <div class="kpi-value" id="kpi-cars-val">6</div>
-            <div class="kpi-label">Véhicules actifs</div>
+            <div class="kpi-value" id="kpi-cars-val">6 / 6</div>
+            <div class="kpi-label">Véhicules de la flotte</div>
           </div>
+
           <div class="kpi-card" id="kpi-clients">
             <div class="kpi-top">
-              <span class="kpi-icon">👥</span>
-              <span class="kpi-trend up" id="kpi-cli-trend">+5</span>
+              <span class="kpi-icon">⭐</span>
+              <span class="kpi-trend up" id="kpi-cli-trend">4.9 / 5.0</span>
             </div>
-            <div class="kpi-value" id="kpi-cli-val">89</div>
-            <div class="kpi-label">Clients enregistrés</div>
+            <div class="kpi-value" id="kpi-cli-val">100%</div>
+            <div class="kpi-label">Satisfaction client</div>
+          </div>
+        </div>
+
+        <!-- Visual Statistics / Charts -->
+        <div class="stats-visual-grid">
+          <!-- Monthly Revenue Trend -->
+          <div class="stats-panel-card">
+            <div class="stats-panel-header">
+              <div class="stats-panel-title">📈 Évolution des revenus (DZD en milliers)</div>
+              <span style="font-size:0.75rem;color:var(--gold);font-weight:700;">Année 2024</span>
+            </div>
+            <div class="bar-chart">
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 45%;" data-val="110k"></div>
+                <span class="bar-label">Juil</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 60%;" data-val="150k"></div>
+                <span class="bar-label">Août</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 55%;" data-val="135k"></div>
+                <span class="bar-label">Sept</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 70%;" data-val="180k"></div>
+                <span class="bar-label">Oct</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 80%;" data-val="210k"></div>
+                <span class="bar-label">Nov</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height: 95%; background: var(--gold);" data-val="245k"></div>
+                <span class="bar-label" style="color:var(--gold);font-weight:700;">Déc</span>
+              </div>
+            </div>
+            <p class="body-sm text-grey" style="margin-top:8px;">Pic d'activité enregistré en période des fêtes et retours d'expatriés à Oran.</p>
+          </div>
+
+          <!-- Vehicle popularity breakdown -->
+          <div class="stats-panel-card">
+            <div class="stats-panel-header">
+              <div class="stats-panel-title">🚘 Véhicules les plus loués</div>
+            </div>
+            <div class="progress-group">
+              <div class="progress-item">
+                <div class="progress-item-head">
+                  <span>Renault Clio 5</span>
+                  <strong style="color:var(--gold);">42%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 42%; background: var(--gold);"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-item-head">
+                  <span>Geely GX3 Pro</span>
+                  <strong style="color:#48c78e;">33%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 33%; background: #48c78e;"></div>
+                </div>
+              </div>
+              <div class="progress-item">
+                <div class="progress-item-head">
+                  <span>Hyundai i10</span>
+                  <strong style="color:#3298dc;">25%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: 25%; background: #3298dc;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:24px;padding:12px;background:rgba(245,196,0,0.06);border-radius:var(--radius-md);border:1px solid rgba(245,196,0,0.15);font-size:0.8rem;">
+              🚗 <strong>Taux d'occupation :</strong> 5 véhicules en cours de location sur 6.
+            </div>
           </div>
         </div>
 
         <!-- Recent reservations -->
         <div class="admin-section-header" id="recent-res-header">
-          <div class="admin-section-title">📋 Réservations récentes</div>
-          <button class="btn btn-outline" id="see-all-res-btn" onclick="showPanel('reservations')" style="font-size:0.8rem;padding:8px 16px;">Voir tout →</button>
+          <div class="admin-section-title">📋 Dernières réservations en temps réel</div>
+          <button class="btn btn-outline" id="see-all-res-btn" onclick="showPanel('reservations')" style="font-size:0.8rem;padding:8px 16px;">Gérer tout →</button>
         </div>
 
         <div class="table-card" id="recent-table-card">
@@ -404,8 +718,9 @@
                 <th>Client</th>
                 <th>Véhicule</th>
                 <th>Dates</th>
-                <th>Total</th>
+                <th>Montant</th>
                 <th>Statut</th>
+                <th>Actions rapides</th>
               </tr>
             </thead>
             <tbody id="recent-tbody">
@@ -416,6 +731,9 @@
                 <td>12 – 15 Déc 2024</td>
                 <td style="color:var(--gold);font-weight:700;">9 000 DZD</td>
                 <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
+                <td>
+                  <button class="action-btn action-btn-edit" onclick="toggleStatus(this)">Modifier statut</button>
+                </td>
               </tr>
               <tr>
                 <td><strong>KAC-1041</strong></td>
@@ -424,6 +742,9 @@
                 <td>10 – 14 Déc 2024</td>
                 <td style="color:var(--gold);font-weight:700;">18 000 DZD</td>
                 <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
+                <td>
+                  <button class="action-btn action-btn-edit" onclick="toggleStatus(this)">Modifier statut</button>
+                </td>
               </tr>
               <tr>
                 <td><strong>KAC-1040</strong></td>
@@ -432,6 +753,9 @@
                 <td>08 – 10 Déc 2024</td>
                 <td style="color:var(--gold);font-weight:700;">5 000 DZD</td>
                 <td><span class="status-badge status-pending">⏳ En attente</span></td>
+                <td>
+                  <button class="action-btn action-btn-edit" onclick="toggleStatus(this)">Confirmer</button>
+                </td>
               </tr>
               <tr>
                 <td><strong>KAC-1039</strong></td>
@@ -440,14 +764,9 @@
                 <td>05 – 08 Déc 2024</td>
                 <td style="color:var(--gold);font-weight:700;">10 500 DZD</td>
                 <td><span class="status-badge status-confirmed">✅ Confirmé</span></td>
-              </tr>
-              <tr>
-                <td><strong>KAC-1038</strong></td>
-                <td>Omar Khelil</td>
-                <td>Peugeot 208</td>
-                <td>01 – 03 Déc 2024</td>
-                <td style="color:var(--gold);font-weight:700;">6 400 DZD</td>
-                <td><span class="status-badge status-cancelled">❌ Annulé</span></td>
+                <td>
+                  <button class="action-btn action-btn-edit" onclick="toggleStatus(this)">Modifier statut</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -459,16 +778,16 @@
       <div class="admin-panel" id="panel-reservations">
         <div class="admin-section-header">
           <div class="admin-section-title">📅 Toutes les réservations</div>
-          <button class="btn btn-primary" id="add-res-btn" style="font-size:0.82rem;padding:10px 18px;">+ Nouvelle</button>
+          <button class="btn btn-primary" onclick="openAddResModal()" style="font-size:0.82rem;padding:10px 18px;">+ Nouvelle réservation</button>
         </div>
 
         <div class="search-bar" id="res-search-bar">
-          <input class="search-input" type="text" id="res-search" placeholder="🔍 Rechercher un client, une réf..." />
-          <select class="form-control" id="res-filter-status" style="max-width:160px;padding:10px 14px;height:auto;">
+          <input class="search-input" type="text" id="res-search" placeholder="🔍 Rechercher un client, une référence ou un véhicule..." />
+          <select class="form-control" id="res-filter-status" style="max-width:170px;padding:10px 14px;min-height:46px;">
             <option value="">Tous les statuts</option>
-            <option value="confirmed">Confirmé</option>
-            <option value="pending">En attente</option>
-            <option value="cancelled">Annulé</option>
+            <option value="Confirmé">Confirmé</option>
+            <option value="En attente">En attente</option>
+            <option value="Annulé">Annulé</option>
           </select>
         </div>
 
@@ -480,19 +799,18 @@
                 <th>Client</th>
                 <th>Téléphone</th>
                 <th>Véhicule</th>
-                <th>Début</th>
-                <th>Fin</th>
-                <th>Total</th>
+                <th>Période</th>
+                <th>Montant</th>
                 <th>Statut</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="res-tbody">
-              <tr><td><strong>KAC-1042</strong></td><td>Karim Bensalem</td><td>0770123456</td><td>Clio 5</td><td>12/12</td><td>15/12</td><td style="color:var(--gold);font-weight:700;">9 000</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1042">✏️</button> <button class="action-btn action-btn-del" id="del-res-1042">🗑️</button></td></tr>
-              <tr><td><strong>KAC-1041</strong></td><td>Samia Lamine</td><td>0660987654</td><td>Geely GX3</td><td>10/12</td><td>14/12</td><td style="color:var(--gold);font-weight:700;">18 000</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1041">✏️</button> <button class="action-btn action-btn-del" id="del-res-1041">🗑️</button></td></tr>
-              <tr><td><strong>KAC-1040</strong></td><td>Mohamed Rezki</td><td>0550456123</td><td>i10</td><td>08/12</td><td>10/12</td><td style="color:var(--gold);font-weight:700;">5 000</td><td><span class="status-badge status-pending">En attente</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1040">✏️</button> <button class="action-btn action-btn-del" id="del-res-1040">🗑️</button></td></tr>
-              <tr><td><strong>KAC-1039</strong></td><td>Fatima Zerrouki</td><td>0770654321</td><td>Logan</td><td>05/12</td><td>08/12</td><td style="color:var(--gold);font-weight:700;">10 500</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1039">✏️</button> <button class="action-btn action-btn-del" id="del-res-1039">🗑️</button></td></tr>
-              <tr><td><strong>KAC-1038</strong></td><td>Omar Khelil</td><td>0660111222</td><td>Peugeot 208</td><td>01/12</td><td>03/12</td><td style="color:var(--gold);font-weight:700;">6 400</td><td><span class="status-badge status-cancelled">Annulé</span></td><td><button class="action-btn action-btn-edit" id="edit-res-1038">✏️</button> <button class="action-btn action-btn-del" id="del-res-1038">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1042</strong></td><td>Karim Bensalem</td><td>0770 12 34 56</td><td>Renault Clio 5</td><td>12/12 → 15/12</td><td style="color:var(--gold);font-weight:700;">9 000 DZD</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1041</strong></td><td>Samia Lamine</td><td>0660 98 76 54</td><td>Geely GX3 Pro</td><td>10/12 → 14/12</td><td style="color:var(--gold);font-weight:700;">18 000 DZD</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1040</strong></td><td>Mohamed Rezki</td><td>0550 45 61 23</td><td>Hyundai i10</td><td>08/12 → 10/12</td><td style="color:var(--gold);font-weight:700;">5 000 DZD</td><td><span class="status-badge status-pending">En attente</span></td><td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1039</strong></td><td>Fatima Zerrouki</td><td>0770 65 43 21</td><td>Dacia Logan</td><td>05/12 → 08/12</td><td style="color:var(--gold);font-weight:700;">10 500 DZD</td><td><span class="status-badge status-confirmed">Confirmé</span></td><td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td></tr>
+              <tr><td><strong>KAC-1038</strong></td><td>Omar Khelil</td><td>0660 11 12 22</td><td>Peugeot 208</td><td>01/12 → 03/12</td><td style="color:var(--gold);font-weight:700;">6 400 DZD</td><td><span class="status-badge status-cancelled">Annulé</span></td><td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td></tr>
             </tbody>
           </table>
         </div>
@@ -501,21 +819,21 @@
       <!-- ===== VEHICLES PANEL ===== -->
       <div class="admin-panel" id="panel-vehicles">
         <div class="admin-section-header">
-          <div class="admin-section-title">🚗 Gestion des véhicules</div>
-          <button class="btn btn-primary" id="add-car-btn" style="font-size:0.82rem;padding:10px 18px;">+ Ajouter</button>
+          <div class="admin-section-title">🚗 Gestion de la flotte</div>
+          <button class="btn btn-primary" onclick="showToast('Formulaire d\'ajout véhicule ouvert')" style="font-size:0.82rem;padding:10px 18px;">+ Ajouter un véhicule</button>
         </div>
         <div class="table-card" id="vehicles-table-card">
           <table class="data-table" id="vehicles-table">
             <thead>
-              <tr><th>ID</th><th>Véhicule</th><th>Catégorie</th><th>Immatriculation</th><th>Prix/jour</th><th>Kilométrage</th><th>Statut</th><th>Actions</th></tr>
+              <tr><th>ID</th><th>Véhicule</th><th>Catégorie</th><th>Immatriculation</th><th>Prix / jour</th><th>Kilométrage</th><th>Statut</th><th>Actions</th></tr>
             </thead>
             <tbody id="vehicles-tbody">
-              <tr><td>V001</td><td>Renault Clio 5</td><td>Économique</td><td>12345-217-31</td><td style="color:var(--gold);">3 000 DZD</td><td>45 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-1">✏️</button></td></tr>
-              <tr><td>V002</td><td>Geely GX3 Pro</td><td>SUV</td><td>54321-217-31</td><td style="color:var(--gold);">4 500 DZD</td><td>22 800 km</td><td><span class="status-badge status-rented">En location</span></td><td><button class="action-btn action-btn-edit" id="edit-car-2">✏️</button></td></tr>
-              <tr><td>V003</td><td>Hyundai i10</td><td>Compacte</td><td>67890-217-31</td><td style="color:var(--gold);">2 500 DZD</td><td>61 000 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-3">✏️</button></td></tr>
-              <tr><td>V004</td><td>Dacia Logan</td><td>Familiale</td><td>11111-217-31</td><td style="color:var(--gold);">3 500 DZD</td><td>38 500 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-4">✏️</button></td></tr>
-              <tr><td>V005</td><td>Peugeot 208</td><td>Économique</td><td>22222-217-31</td><td style="color:var(--gold);">3 200 DZD</td><td>29 100 km</td><td><span class="status-badge status-maintenance">Révision</span></td><td><button class="action-btn action-btn-edit" id="edit-car-5">✏️</button></td></tr>
-              <tr><td>V006</td><td>Renault Kangoo</td><td>Utilitaire</td><td>33333-217-31</td><td style="color:var(--gold);">4 000 DZD</td><td>78 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" id="edit-car-6">✏️</button></td></tr>
+              <tr><td>V001</td><td><strong>Renault Clio 5</strong></td><td>Économique</td><td>12345-217-31</td><td style="color:var(--gold);font-weight:700;">3 000 DZD</td><td>45 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
+              <tr><td>V002</td><td><strong>Geely GX3 Pro</strong></td><td>SUV</td><td>54321-217-31</td><td style="color:var(--gold);font-weight:700;">4 500 DZD</td><td>22 800 km</td><td><span class="status-badge status-rented">En location</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
+              <tr><td>V003</td><td><strong>Hyundai i10</strong></td><td>Compacte</td><td>67890-217-31</td><td style="color:var(--gold);font-weight:700;">2 500 DZD</td><td>61 000 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
+              <tr><td>V004</td><td><strong>Dacia Logan</strong></td><td>Familiale</td><td>11111-217-31</td><td style="color:var(--gold);font-weight:700;">3 500 DZD</td><td>38 500 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
+              <tr><td>V005</td><td><strong>Peugeot 208</strong></td><td>Économique</td><td>22222-217-31</td><td style="color:var(--gold);font-weight:700;">3 200 DZD</td><td>29 100 km</td><td><span class="status-badge status-maintenance">En révision</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
+              <tr><td>V006</td><td><strong>Renault Kangoo</strong></td><td>Utilitaire</td><td>33333-217-31</td><td style="color:var(--gold);font-weight:700;">4 000 DZD</td><td>78 200 km</td><td><span class="status-badge status-available">Disponible</span></td><td><button class="action-btn action-btn-edit" onclick="showToast('Véhicule en cours d\'édition')">✏️ Modifier</button></td></tr>
             </tbody>
           </table>
         </div>
@@ -524,7 +842,7 @@
       <!-- ===== CLIENTS PANEL ===== -->
       <div class="admin-panel" id="panel-clients">
         <div class="admin-section-header">
-          <div class="admin-section-title">👥 Gestion des clients</div>
+          <div class="admin-section-title">👥 Fichier Clients & Contacts</div>
         </div>
         <div class="search-bar" id="cli-search-bar">
           <input class="search-input" type="text" id="cli-search" placeholder="🔍 Rechercher un client..." />
@@ -532,14 +850,14 @@
         <div class="table-card" id="clients-table-card">
           <table class="data-table" id="clients-table">
             <thead>
-              <tr><th>ID</th><th>Nom complet</th><th>Téléphone</th><th>Email</th><th>Réservations</th><th>Dernier contact</th><th>Actions</th></tr>
+              <tr><th>ID</th><th>Nom complet</th><th>Téléphone</th><th>Email</th><th>Locations</th><th>Dernière réservation</th><th>Action</th></tr>
             </thead>
             <tbody id="clients-tbody">
-              <tr><td>C001</td><td>Karim Bensalem</td><td>0770123456</td><td>karim@email.com</td><td>3</td><td>12 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-1">👁️</button></td></tr>
-              <tr><td>C002</td><td>Samia Lamine</td><td>0660987654</td><td>samia@email.com</td><td>1</td><td>10 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-2">👁️</button></td></tr>
-              <tr><td>C003</td><td>Mohamed Rezki</td><td>0550456123</td><td>—</td><td>2</td><td>08 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-3">👁️</button></td></tr>
-              <tr><td>C004</td><td>Fatima Zerrouki</td><td>0770654321</td><td>fatima@email.com</td><td>1</td><td>05 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-4">👁️</button></td></tr>
-              <tr><td>C005</td><td>Omar Khelil</td><td>0660111222</td><td>—</td><td>1</td><td>01 Déc 2024</td><td><button class="action-btn action-btn-view" id="view-client-5">👁️</button></td></tr>
+              <tr><td>C001</td><td><strong>Karim Bensalem</strong></td><td>0770 12 34 56</td><td>karim@email.com</td><td>3</td><td>12 Déc 2024</td><td><button class="action-btn action-btn-view" onclick="showToast('Ouverture dossier Karim Bensalem')">👁️ Fiche</button></td></tr>
+              <tr><td>C002</td><td><strong>Samia Lamine</strong></td><td>0660 98 76 54</td><td>samia@email.com</td><td>1</td><td>10 Déc 2024</td><td><button class="action-btn action-btn-view" onclick="showToast('Ouverture dossier Samia Lamine')">👁️ Fiche</button></td></tr>
+              <tr><td>C003</td><td><strong>Mohamed Rezki</strong></td><td>0550 45 61 23</td><td>—</td><td>2</td><td>08 Déc 2024</td><td><button class="action-btn action-btn-view" onclick="showToast('Ouverture dossier Mohamed Rezki')">👁️ Fiche</button></td></tr>
+              <tr><td>C004</td><td><strong>Fatima Zerrouki</strong></td><td>0770 65 43 21</td><td>fatima@email.com</td><td>1</td><td>05 Déc 2024</td><td><button class="action-btn action-btn-view" onclick="showToast('Ouverture dossier Fatima Zerrouki')">👁️ Fiche</button></td></tr>
+              <tr><td>C005</td><td><strong>Omar Khelil</strong></td><td>0660 11 12 22</td><td>—</td><td>1</td><td>01 Déc 2024</td><td><button class="action-btn action-btn-view" onclick="showToast('Ouverture dossier Omar Khelil')">👁️ Fiche</button></td></tr>
             </tbody>
           </table>
         </div>
@@ -547,25 +865,62 @@
 
       <!-- ===== SETTINGS PANEL ===== -->
       <div class="admin-panel" id="panel-settings">
-        <div class="admin-section-title" style="margin-bottom:24px;">⚙️ Paramètres</div>
+        <div class="admin-section-title" style="margin-bottom:24px;">⚙️ Paramètres de l'agence</div>
         <div style="background:var(--black-2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:32px;max-width:600px;">
           <div style="margin-bottom:20px;" class="form-group">
-            <label class="form-label" for="setting-phone">📞 Téléphone affiché</label>
+            <label class="form-label" for="setting-phone">📞 Téléphone principal</label>
             <input class="form-control" type="tel" id="setting-phone" value="0770 78 94 15" />
           </div>
           <div style="margin-bottom:20px;" class="form-group">
-            <label class="form-label" for="setting-email">📧 Email affiché</label>
+            <label class="form-label" for="setting-email">📧 Email officiel</label>
             <input class="form-control" type="email" id="setting-email" value="Gklocation93@gmail.com" />
           </div>
           <div style="margin-bottom:20px;" class="form-group">
-            <label class="form-label" for="setting-address">📍 Adresse</label>
+            <label class="form-label" for="setting-address">📍 Ville & Wilaya</label>
             <input class="form-control" type="text" id="setting-address" value="Oran, Algérie" />
           </div>
-          <button class="btn btn-primary" id="save-settings-btn" onclick="showToast('Paramètres sauvegardés !')">💾 Sauvegarder</button>
+          <button class="btn btn-primary" id="save-settings-btn" onclick="showToast('Paramètres mis à jour avec succès !')">💾 Sauvegarder les modifications</button>
         </div>
       </div>
 
     </main>
+  </div>
+
+  <!-- ===== MODAL ADD RESERVATION ===== -->
+  <div class="modal-overlay" id="modal-add-res">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size:1.1rem;font-weight:700;">+ Nouvelle Réservation Rapide</h3>
+        <span class="modal-close" onclick="closeAddResModal()">&times;</span>
+      </div>
+      <form id="add-res-form" onsubmit="handleAddResSubmit(event)">
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Client</label>
+          <input class="form-control" type="text" id="m-client" placeholder="Nom et prénom" required />
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Téléphone</label>
+          <input class="form-control" type="tel" id="m-phone" placeholder="0770..." required />
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Véhicule</label>
+          <select class="form-control" id="m-car" required>
+            <option value="Renault Clio 5">Renault Clio 5 (3 000 DZD/j)</option>
+            <option value="Geely GX3 Pro">Geely GX3 Pro (4 500 DZD/j)</option>
+            <option value="Hyundai i10">Hyundai i10 (2 500 DZD/j)</option>
+            <option value="Dacia Logan">Dacia Logan (3 500 DZD/j)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Nombre de jours</label>
+          <input class="form-control" type="number" id="m-days" value="3" min="1" required />
+        </div>
+        <div style="display:flex;gap:12px;justify-content:flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeAddResModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Toast -->
@@ -575,13 +930,12 @@
   </div>
 
   <script>
-    // ===== Date =====
+    // ===== Date Display =====
     document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-DZ', {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
 
-    // ===== Login =====
-    // Demo credentials (hardcoded prototype — not for production)
+    // ===== Login Logic =====
     const ADMIN_USER = 'admin';
     const ADMIN_PASS = 'kachour2024';
 
@@ -596,6 +950,7 @@
       if (u === ADMIN_USER && p === ADMIN_PASS) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-layout').classList.add('active');
+        showToast('Bienvenue sur le tableau de bord Kachour !');
       } else {
         document.getElementById('login-err').style.display = 'block';
         document.getElementById('login-pass').value = '';
@@ -606,29 +961,100 @@
     function doLogout() {
       document.getElementById('admin-layout').classList.remove('active');
       document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('login-user').value = '';
-      document.getElementById('login-pass').value = '';
+      showToast('Vous êtes déconnecté.');
     }
 
-    // ===== Panel navigation =====
+    // ===== Panel Navigation =====
     const panelTitles = {
-      dashboard:    '📊 Tableau de bord',
-      reservations: '📅 Réservations',
-      vehicles:     '🚗 Véhicules',
-      clients:      '👥 Clients',
-      settings:     '⚙️ Paramètres'
+      dashboard:    '📊 Tableau de bord & Statistiques',
+      reservations: '📅 Gestion des Réservations',
+      vehicles:     '🚗 Gestion de la Flotte',
+      clients:      '👥 Répertoire Clients',
+      settings:     '⚙️ Configuration'
     };
 
     function showPanel(name) {
       document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.sidebar-nav-link').forEach(l => l.classList.remove('active'));
 
-      document.getElementById('panel-' + name).classList.add('active');
-      document.getElementById('nav-' + name).classList.add('active');
+      const targetPanel = document.getElementById('panel-' + name);
+      const targetNav = document.getElementById('nav-' + name);
+
+      if (targetPanel) targetPanel.classList.add('active');
+      if (targetNav) targetNav.classList.add('active');
       document.getElementById('panel-title').textContent = panelTitles[name] || name;
     }
 
-    // ===== Toast =====
+    // ===== Modal functions =====
+    function openAddResModal() {
+      document.getElementById('modal-add-res').classList.add('open');
+    }
+    function closeAddResModal() {
+      document.getElementById('modal-add-res').classList.remove('open');
+    }
+
+    function handleAddResSubmit(e) {
+      e.preventDefault();
+      const client = document.getElementById('m-client').value;
+      const phone = document.getElementById('m-phone').value;
+      const car = document.getElementById('m-car').value;
+      const days = parseInt(document.getElementById('m-days').value, 10);
+      const rates = { 'Renault Clio 5': 3000, 'Geely GX3 Pro': 4500, 'Hyundai i10': 2500, 'Dacia Logan': 3500 };
+      const total = (rates[car] || 3000) * days;
+      const ref = 'KAC-' + Math.floor(1050 + Math.random() * 8000);
+
+      // Add to table
+      const tbody = document.getElementById('res-tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${ref}</strong></td>
+        <td>${client}</td>
+        <td>${phone}</td>
+        <td>${car}</td>
+        <td>Aujourd'hui (${days}j)</td>
+        <td style="color:var(--gold);font-weight:700;">${total.toLocaleString('fr-DZ')} DZD</td>
+        <td><span class="status-badge status-confirmed">Confirmé</span></td>
+        <td><button class="action-btn action-btn-edit" onclick="toggleStatus(this)">🔄 Statut</button> <button class="action-btn action-btn-del" onclick="deleteRow(this)">🗑️</button></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      // Update KPI
+      const kpiRes = document.getElementById('kpi-res-val');
+      if (kpiRes) kpiRes.textContent = parseInt(kpiRes.textContent || 28) + 1;
+
+      closeAddResModal();
+      showToast('Réservation ' + ref + ' créée avec succès !');
+    }
+
+    // Toggle reservation status
+    function toggleStatus(btn) {
+      const row = btn.closest('tr');
+      const badge = row.querySelector('.status-badge');
+      if (badge.textContent.includes('Confirmé')) {
+        badge.className = 'status-badge status-pending';
+        badge.textContent = 'En attente';
+        showToast('Statut changé en : En attente');
+      } else if (badge.textContent.includes('En attente')) {
+        badge.className = 'status-badge status-cancelled';
+        badge.textContent = 'Annulé';
+        showToast('Statut changé en : Annulé');
+      } else {
+        badge.className = 'status-badge status-confirmed';
+        badge.textContent = 'Confirmé';
+        showToast('Statut changé en : Confirmé');
+      }
+    }
+
+    function deleteRow(btn) {
+      if (confirm('Voulez-vous supprimer cette entrée ?')) {
+        const row = btn.closest('tr');
+        row.style.opacity = '0';
+        setTimeout(() => row.remove(), 300);
+        showToast('Ligne supprimée.');
+      }
+    }
+
+    // Toast notification
     function showToast(msg) {
       const t = document.getElementById('admin-toast');
       document.getElementById('admin-toast-msg').textContent = msg;
@@ -636,29 +1062,19 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    // ===== Action button listeners =====
-    document.querySelectorAll('.action-btn-del').forEach(btn => {
-      btn.addEventListener('click', function() {
-        if (confirm('Supprimer cet élément ?')) {
-          this.closest('tr').style.opacity = '0.4';
-          showToast('Supprimé avec succès.');
-        }
-      });
-    });
-
-    document.querySelectorAll('.action-btn-edit').forEach(btn => {
-      btn.addEventListener('click', () => showToast('Mode édition activé (bientôt disponible).'));
-    });
-
-    document.querySelectorAll('.action-btn-view').forEach(btn => {
-      btn.addEventListener('click', () => showToast('Fiche client (bientôt disponible).'));
-    });
-
-    // ===== Search filters =====
+    // Search filters
     document.getElementById('res-search').addEventListener('input', function() {
       const q = this.value.toLowerCase();
       document.querySelectorAll('#res-tbody tr').forEach(tr => {
         tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
+    document.getElementById('res-filter-status').addEventListener('change', function() {
+      const val = this.value;
+      document.querySelectorAll('#res-tbody tr').forEach(tr => {
+        const badge = tr.querySelector('.status-badge');
+        tr.style.display = !val || (badge && badge.textContent.includes(val)) ? '' : 'none';
       });
     });
 
