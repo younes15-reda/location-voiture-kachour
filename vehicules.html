@@ -108,7 +108,7 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- Navigation principale -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
     <div class="container nav-inner">
       <a href="index.html" class="nav-logo" id="nav-logo-link">
@@ -141,7 +141,7 @@
     </div>
   </div>
 
-  <!-- PAGE HEADER -->
+  <!-- En-tête de page -->
   <section class="page-header" id="page-header">
     <div class="container">
       <div class="section-badge reveal" id="page-badge">Notre Flotte</div>
@@ -152,7 +152,7 @@
     </div>
   </section>
 
-  <!-- FILTERS BAR -->
+  <!-- Filtres par catégorie -->
   <div class="filters-bar" id="filters-bar">
     <div class="container">
       <div class="filters-inner" id="filters-inner">
@@ -165,7 +165,7 @@
     </div>
   </div>
 
-  <!-- CARS SECTION -->
+  <!-- Catalogue des véhicules -->
   <section class="section-padding" id="cars-section">
     <div class="container">
 
@@ -360,7 +360,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Pied de page -->
   <footer class="footer" id="footer" role="contentinfo">
     <div class="container">
       <div class="footer-grid">
@@ -409,14 +409,14 @@
 
   <a class="whatsapp-float" id="wa-float" href="https://wa.me/213770789415?text=Bonjour%20Kachour%20Oran" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
 
-  <!-- CDN Scripts: Lenis + GSAP + ScrollTrigger -->
+  <!-- Scripts d'animation et interactions -->
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="assets/js/main.js"></script>
 
   <script>
-    // Filter cars
+    // Filtrage des véhicules par catégorie
     function filterCars(cat) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       const activeBtnId = 'filter-' + (cat === 'all' ? 'all' : cat === 'economique' ? 'eco' : cat === 'suv' ? 'suv' : cat === 'familiale' ? 'fam' : 'util');

@@ -1,30 +1,21 @@
 /**
- * ====================================================================
- * KACHOUR ORAN — Script Principal & Animations Premium
- * Stack: Lenis (Smooth Scroll) + GSAP & ScrollTrigger
- * Registre visuel: Sobre Premium (Automotive / Car Rental)
- * Marché: Oran, Algérie
- * ====================================================================
+ * Kachour Oran — Scripts d'interaction et d'animation
+ * Stack : Lenis (défilement fluide) + GSAP & ScrollTrigger
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  // ------------------------------------------------------------------
-  // 1. Accessibility & Environment Checks
-  // ------------------------------------------------------------------
+  // Détection des préférences d'accessibilité et de l'environnement
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const isMobile = window.innerWidth <= 768;
 
-  // Register GSAP plugins if available
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
   }
 
-  // ------------------------------------------------------------------
-  // 2. Lenis Smooth Scrolling (Global Single Instance)
-  // ------------------------------------------------------------------
+  // Défilement fluide (Lenis)
   let lenis = null;
 
   if (!prefersReduced && typeof Lenis !== 'undefined') {
@@ -36,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       infinite: false
     });
 
-    // Synchronize Lenis scroll position with GSAP ScrollTrigger
+    // Synchronisation avec ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
       lenis.on('scroll', ScrollTrigger.update);
 
@@ -54,9 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------------------------------
-  // 3. Navbar Scroll Effect & Mobile Menu
-  // ------------------------------------------------------------------
+  // Gestion de la barre de navigation et du menu mobile
   const navbar = document.getElementById('navbar');
   if (navbar) {
     window.addEventListener('scroll', () => {
@@ -77,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
-    // Close mobile menu on outside click
     document.addEventListener('click', (e) => {
       if (!hamburger.contains(e.target) && !navMobile.contains(e.target)) {
         navMobile.classList.remove('open');
@@ -86,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close on navigation link click
     navMobile.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         navMobile.classList.remove('open');
@@ -96,14 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------------------------------
-  // 4. Hero Section Animations & Parallax (index.html)
-  // ------------------------------------------------------------------
+  // Animation et parallax du Hero (index.html)
   const heroBg = document.getElementById('hero-bg');
   const heroSection = document.getElementById('hero');
 
   if (!prefersReduced && typeof gsap !== 'undefined') {
-    // Parallax on Hero background (yPercent 15, smooth scrub)
     if (heroBg && heroSection && typeof ScrollTrigger !== 'undefined') {
       gsap.to(heroBg, {
         yPercent: 15,
@@ -117,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Hero content entrance timeline
     const heroTag = document.getElementById('hero-tag');
     const heroTitle = document.getElementById('hero-title');
     const heroSubtitle = document.getElementById('hero-subtitle');
@@ -148,18 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------------------------------
-  // 5. ScrollTrigger Scroll Reveals (fade + translateY 28px, expo.out)
-  // ------------------------------------------------------------------
+  // Apparition des éléments au défilement (ScrollTrigger)
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     if (prefersReduced) {
-      // If user prefers reduced motion, reveal everything immediately
       document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
         el.style.opacity = '1';
         el.style.transform = 'none';
       });
     } else {
-      // Grids with staggered items (features, cars, testimonials, etc.)
       const gridSelectors = [
         '.features-grid > .card',
         '.cars-grid > .card',
@@ -194,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Standalone section headers, info banners, CTA blocks
       const standaloneElements = document.querySelectorAll(`
         .section-header,
         .quick-book,
@@ -208,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `);
 
       standaloneElements.forEach((el) => {
-        // Skip if inside a hero (handled by hero timeline)
         if (el.closest('#hero')) return;
 
         gsap.fromTo(el,
@@ -228,15 +205,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   } else {
-    // Fallback if GSAP is not loaded
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
       el.classList.add('visible');
     });
   }
 
-  // ------------------------------------------------------------------
-  // 6. Magnetic CTA Buttons (Desktop only, amplitude ~8px max)
-  // ------------------------------------------------------------------
+  // Effet magnétique sur les boutons principaux (desktop)
   if (isFinePointer && !prefersReduced && typeof gsap !== 'undefined') {
     const magneticElements = document.querySelectorAll('.btn-primary, .btn-whatsapp, #nav-cta-btn, #hero-reserve-btn, #airport-call-btn');
 
@@ -249,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const deltaX = e.clientX - centerX;
         const deltaY = e.clientY - centerY;
 
-        // Max translation ~8px
         const maxDist = 8;
         const moveX = (deltaX / (rect.width / 2)) * maxDist;
         const moveY = (deltaY / (rect.height / 2)) * maxDist;
@@ -273,9 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------------------------------
-  // 7. Counter Animation for Stats (Triggered by ScrollTrigger)
-  // ------------------------------------------------------------------
+  // Animation des chiffres clés (statistiques)
   const counters = document.querySelectorAll('[data-target]');
   if (counters.length > 0) {
     if (!prefersReduced && typeof ScrollTrigger !== 'undefined') {
@@ -308,9 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------------------------------
-  // 8. Toast Helper Utility
-  // ------------------------------------------------------------------
+  // Utilitaire d'affichage des messages toast
   window.showToast = function(msg, icon = '✅') {
     const toast = document.getElementById('toast') || document.getElementById('admin-toast');
     if (!toast) return;

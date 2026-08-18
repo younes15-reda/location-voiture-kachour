@@ -1,13 +1,11 @@
-/* ===================================================
-   KACHOUR ORAN — Design System
-   Palette: #0a0a0a (noir), #f5c400 (or), #ffffff
-   Style: Sobre Premium (Automotive / Oran, Algérie)
-   =================================================== */
+/*
+ * Kachour Oran — Feuille de style principale
+ * Palette : #0a0a0a (noir), #f5c400 (or), #ffffff
+ */
 
-/* ---------- 1. Fonts ---------- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
 
-/* ---------- 2. CSS Variables ---------- */
+/* Variables globales */
 :root {
   --gold:       #f5c400;
   --gold-dark:  #d4a900;
@@ -45,14 +43,14 @@
   --container:  1240px;
 }
 
-/* ---------- 3. Reset & Base ---------- */
+/* Réinitialisation et base */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   font-size: 16px;
 }
 
-/* Lenis smooth scroll requirements */
+/* Intégration Lenis pour le défilement fluide */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -88,7 +86,7 @@ a  { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-/* ---------- 4. Layout ---------- */
+/* Mise en page */
 .container {
   width: 100%;
   max-width: var(--container);
@@ -99,7 +97,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .section-padding { padding: 100px 0; }
 .section-padding-sm { padding: 60px 0; }
 
-/* ---------- 5. Typography ---------- */
+/* Typographie */
 h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-height: 1.1; }
 
 .heading-xl { font-size: clamp(2.4rem, 5vw, 4rem); letter-spacing: -0.02em; }
@@ -116,7 +114,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 .body-md { font-size: 0.95rem; line-height: 1.65; }
 .body-sm { font-size: 0.85rem; line-height: 1.6; }
 
-/* ---------- 6. Buttons ---------- */
+/* Boutons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -165,7 +163,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   box-shadow: 0 8px 28px rgba(37, 211, 102, 0.45);
 }
 
-/* ---------- 7. Navigation ---------- */
+/* Barre de navigation */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -261,7 +259,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 
 .nav-cta { margin-left: 16px; }
 
-/* Hamburger */
+/* Menu mobile */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -283,7 +281,6 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile menu */
 .nav-mobile {
   display: none;
   position: fixed;
@@ -329,7 +326,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   color: var(--gold);
 }
 
-/* ---------- 8. Section Header ---------- */
+/* En-têtes de sections */
 .section-header {
   text-align: center;
   margin-bottom: 64px;
@@ -357,7 +354,7 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   border-radius: 2px;
 }
 
-/* ---------- 9. Cards & Hover States ---------- */
+/* Cartes et composants */
 .card {
   background: var(--black-3);
   border-radius: var(--radius-lg);
@@ -368,7 +365,6 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   transition: transform var(--transition-hover), box-shadow var(--transition-hover), border-color var(--transition-normal);
 }
 
-/* Desktop hover effects: scale(1.03) + progressive shadow */
 @media (hover: hover) and (pointer: fine) {
   .car-card:hover,
   .testimonial-card:hover,
@@ -379,7 +375,6 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   }
 }
 
-/* ---------- 10. Feature icons ---------- */
 .feature-icon {
   width: 56px;
   height: 56px;
@@ -400,7 +395,6 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
   }
 }
 
-/* ---------- 11. Badge / Tags ---------- */
 .badge {
   display: inline-block;
   padding: 4px 12px;
@@ -414,10 +408,9 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 .badge-gold    { background: var(--gold); color: var(--black); font-weight: 700; }
 .badge-outline { border: 1px solid var(--gold); color: var(--gold); }
 
-/* ---------- 12. Stars ---------- */
 .stars { color: var(--gold); letter-spacing: 2px; font-size: 1rem; }
 
-/* ---------- 13. Form Elements ---------- */
+/* Formulaires */
 .form-group { display: flex; flex-direction: column; gap: 8px; }
 
 .form-label {
@@ -449,9 +442,23 @@ h1, h2, h3, h4, h5 { font-family: var(--font-heading); font-weight: 800; line-he
 
 .form-control::placeholder { color: var(--grey-3); }
 
-select.form-control { appearance: none; -webkit-appearance: none; cursor: pointer; }
+select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23f5c400' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  padding-right: 42px;
+}
 
-/* ---------- 14. Progress steps ---------- */
+/* Lisibilité complète des options dans le menu déroulant ouvert */
+select.form-control option {
+  color: var(--black);
+  background: var(--white);
+}
+
+/* Indicateur d'étapes */
 .steps-bar {
   display: flex;
   align-items: center;
@@ -523,7 +530,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 .step-item.active .step-label { color: var(--gold); }
 .step-item.done  .step-label  { color: rgba(255, 255, 255, 0.7); }
 
-/* ---------- 15. Scroll Reveal Fallback & Initial State ---------- */
+/* Animation au défilement */
 .reveal, .reveal-left, .reveal-right {
   opacity: 0;
   transform: translateY(28px);
@@ -538,7 +545,6 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
-/* ---------- 16. Gold line accent ---------- */
 .gold-line {
   width: 100%;
   height: 1px;
@@ -547,7 +553,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   margin: 0 auto;
 }
 
-/* ---------- 17. Notification toast ---------- */
+/* Notifications toast */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -570,7 +576,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
 .toast.show { transform: translateX(0); }
 .toast-icon { font-size: 1.4rem; }
 
-/* ---------- 18. Footer ---------- */
+/* Pied de page */
 .footer {
   background: #050505;
   border-top: 1px solid rgba(245, 196, 0, 0.1);
@@ -639,7 +645,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   color: var(--grey-3);
 }
 
-/* ---------- 19. WhatsApp Floating Button ---------- */
+/* Bouton flottant WhatsApp */
 .whatsapp-float {
   position: fixed;
   bottom: 30px;
@@ -662,7 +668,6 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   box-shadow: 0 8px 32px rgba(37, 211, 102, 0.55);
 }
 
-/* Pulse ring */
 .whatsapp-float::before {
   content: '';
   position: absolute;
@@ -677,7 +682,6 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   100% { transform: scale(1.4); opacity: 0; }
 }
 
-/* ---------- 20. Page header ---------- */
 .page-header {
   padding: 140px 0 80px;
   text-align: center;
@@ -694,7 +698,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
-/* ---------- 21. Responsive ---------- */
+/* Adaptabilité mobile */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
 }
@@ -722,7 +726,7 @@ select.form-control { appearance: none; -webkit-appearance: none; cursor: pointe
   .btn { padding: 12px 24px; font-size: 0.82rem; }
 }
 
-/* ---------- 22. Prefers reduced motion ---------- */
+/* Gestion du mode sans animation */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
